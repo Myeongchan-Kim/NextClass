@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Hospital">
+      <UniqueIdentifier>{05efb250-79e2-4f89-b6fc-5bb255ed1a15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\testModule">
+      <UniqueIdentifier>{30a370ce-697d-4a76-aa34-45bd80beb9d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Hospital\Strategy">
+      <UniqueIdentifier>{5571b106-7a8e-4602-9807-c57212f14cca}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PatientGenerater.cpp">
+      <Filter>소스 파일\testModule</Filter>
+    </ClCompile>
+    <ClCompile Include="Physician.cpp">
+      <Filter>소스 파일\Hospital</Filter>
+    </ClCompile>
+    <ClCompile Include="PatientList.cpp">
+      <Filter>소스 파일\Hospital</Filter>
+    </ClCompile>
+    <ClCompile Include="Reporter.cpp">
+      <Filter>소스 파일\testModule</Filter>
+    </ClCompile>
+    <ClCompile Include="TestModule.cpp">
+      <Filter>소스 파일\testModule</Filter>
+    </ClCompile>
+    <ClCompile Include="mainTest.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Hospital.cpp">
+      <Filter>소스 파일\Hospital</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicianList.cpp">
+      <Filter>소스 파일\Hospital</Filter>
+    </ClCompile>
+    <ClCompile Include="Strategy.cpp">
+      <Filter>소스 파일\Hospital\Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Patient.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FCFS.cpp">
+      <Filter>소스 파일\Hospital\Strategy</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mainTest.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physician.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Patient.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PatientList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PatientGenerater.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Reporter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TestModule.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Hospital.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicianList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="const.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FCFS.h">
+      <Filter>소스 파일\Hospital\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Strategy.h">
+      <Filter>소스 파일\Hospital\Strategy</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SamplePatientList.csv">
+      <Filter>소스 파일</Filter>
+    </None>
+  </ItemGroup>
+</Project>
