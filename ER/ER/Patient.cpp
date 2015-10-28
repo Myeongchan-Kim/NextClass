@@ -5,8 +5,8 @@ using namespace std;
 Patient::Patient(int makeTime, const char * name, int age, char sex, const char * cc, const char * disease, int dtime, int extime):makeTime(makeTime),patientAge(age),patientSex(sex) ,diagnosticTime(dtime), expireTime(extime), waitedTime(0)
 {
 	strcpy_s(patientName, name);
-	strcpy_s(cheifComplaint, name);
-	strcpy_s(diseaseName, name);
+	strcpy_s(cheifComplaint, cc);
+	strcpy_s(diseaseName, disease);
 
 	discharged = false;
 	expired = false;
