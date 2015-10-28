@@ -9,3 +9,4 @@
 #include "PatientGenerater.h"
 #include "TestModule.h"
 #include "FCFS.h"
+#include "Reporter.h"

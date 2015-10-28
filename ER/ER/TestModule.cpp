@@ -12,6 +12,7 @@ TestModule::TestModule( Strategy* str,
 {
 	community = new PatientGenerater(fileName);
 	singletonHospital = Hospital::getInstance();
+	report = new Reporter();
 	m_time = 0;
 };
 
@@ -30,7 +31,7 @@ void TestModule::Run()
 {
 	cout << "--------Test Start---------" << endl;
 
-	while (m_time <= m_maxTime)
+	while (m_time <= m_maxTime )
 	{
 		cout << "Time:" << m_time << endl;
 		
@@ -42,6 +43,12 @@ void TestModule::Run()
 		//some patients are waiting, starving, treating, expiring....
 		singletonHospital->timeSpend();
 		
+		if (community->isAllSended() && singletonHospital->isEmpty()){
+			cout << "No more Patient." << endl;
+			singletonHospital->makeReport(report);
+			break;
+		}
+
 		m_time++;
 	}
 

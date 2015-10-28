@@ -6,7 +6,7 @@ using namespace std;
 
 Hospital * Hospital::instance = new Hospital();
 
-Hospital::Hospital() : docList()
+Hospital::Hospital() : docList(), expireCount(0), dischargeCount(0)
 {
 	docList = new PhysicianList("D.List");
 	emergencyRoom = new PatientList("ER");
@@ -45,19 +45,27 @@ void Hospital::admission(Patient * p)
 
 int Hospital::Discharge(Patient* p)
 {
-	int id = emergencyRoom->GetId(p);
-	if (id < 0) {
-		cerr << "Can;t find Patient in ER" << endl;
-		return -1;
+	Patient* popP;
+	if (popP = docList->Pop(p))
+	{
+		;
+	}else{
+		int id = emergencyRoom->GetId(p);
+		if (id < 0) {
+			cerr << "Can't find Patient in ER" << endl;
+			return -1;
+		}
+		popP = emergencyRoom->Pop(id);
 	}
 
-	Patient* popP = emergencyRoom->Pop(id);
 	if (popP != p)
 	{
 		cerr << "pop err" << endl;
 		return -1;
 	}
 	
+	dischargeCount++;
+
 	return 0;
 }
 
@@ -67,6 +75,8 @@ int Hospital::Expire(Patient* p)
 		cerr << "Who is expired?" << endl;
 		return -1;
 	}
+
+	expireCount++;
 
 	int id = waiting->GetId(p);
 	if (id < 0) {
@@ -86,7 +96,19 @@ int Hospital::Expire(Patient* p)
 	}
 }
 
+bool Hospital::isEmpty()
+{
+	if (waiting->size() == 0 && docList->isNoPatient())
+		return true;
+	else
+		return false;
+}
 
+void Hospital::makeReport(Reporter* report)
+{
+	cout << "Expire : " << expireCount << endl;
+	cout << "Discharge : " << dischargeCount << endl;
+}
 
 Hospital * Hospital::getInstance()
 {

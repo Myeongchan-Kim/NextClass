@@ -15,10 +15,7 @@ PhysicianList::PhysicianList(const char * name , int max):ArrayList(name, max)
 
 PhysicianList::~PhysicianList()
 {
-	for (int i = 0; i < size(); i++)
-	{
-		//delete list[i];
-	}
+
 }
 
 Patient* PhysicianList::Pop(Patient* p)
@@ -37,4 +34,15 @@ Patient* PhysicianList::Pop(Patient* p)
 Patient* PhysicianList::Change(int i, Patient * p)
 {
 	return Get(i)->Change(p);
+}
+
+bool PhysicianList::isNoPatient()
+{
+	for (int i = 0; i < size(); i++)
+	{
+		if (list[i]->getMyPatient() != NULL) {
+			return false;
+		}
+	}
+	return true;
 }

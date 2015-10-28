@@ -1,6 +1,7 @@
 #include "PatientGenerater.h"
 
-PatientGenerater::PatientGenerater(const char * fileName)
+
+PatientGenerater::PatientGenerater(const char * fileName) : sendedPatientsNum(0)
 {
 	pList = new PatientList("generator");
 	if (fileName == NULL)
@@ -72,15 +73,12 @@ PatientGenerater::PatientGenerater(const char * fileName)
 
 PatientGenerater::~PatientGenerater()
 {
-	for (int i = 0; i < pList->size(); i++)
-	{
-		//delete pList->Get(i);
-	}
+
 }
 
 void PatientGenerater::SendPatient(Patient* p, Hospital * hospital)
 {
-	cout << "Send()" << endl;
+	cout << "Send : " << p << endl;
 	hospital->admission(p);
 	return;
 }
@@ -92,6 +90,15 @@ void PatientGenerater::SendPatients(const int currentTime, Hospital * hospital)
 	{
 		if (pList->Get(i)->isTimeToAche(currentTime)) {
 			SendPatient(pList->Get(i), hospital);
+			sendedPatientsNum++;
 		}
 	}
+}
+
+bool PatientGenerater::isAllSended()
+{
+	if (sendedPatientsNum < pList->size())
+		return false;
+	else
+		return true;
 }
