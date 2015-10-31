@@ -25,6 +25,6 @@ void PatientList::wait()
 ostream& operator<<(ostream& os, PatientList& pList)
 {
 	for (int i = 0; i < pList.size(); i++)
-		os << pList.Get(i) << endl;
+		pList.Get(i)->showInfo();
 	return os;
 }

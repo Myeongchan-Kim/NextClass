@@ -1,5 +1,7 @@
 #pragma once
 #include <cstring>
+#include <iostream>
+using namespace std;
 class Patient;
 
 class Physician
@@ -13,5 +15,7 @@ public:
 	Patient* getMyPatient();
 	Patient* Change(Patient*);
 	void Bye();
+
+	friend ostream& operator<<(ostream& os, Physician* doctor);
 };
 

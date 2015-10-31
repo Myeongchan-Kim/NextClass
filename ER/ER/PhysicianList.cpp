@@ -3,11 +3,12 @@ using namespace std;
 
 PhysicianList::PhysicianList(const char * name , int max):ArrayList(name, max)
 {
-	for (int i = 0; i < max; i++)
-	{
-		Physician* doc = new Physician();
-		Add(doc);
-	}
+	Physician* doc = new Physician("Dr.Kim");
+	Add(doc);
+	doc = new Physician("Dr.Lee");
+	Add(doc);
+	doc = new Physician("Dr.Park");
+	Add(doc);
 
 	cout << size() << " Doctors are created." << endl;
 }

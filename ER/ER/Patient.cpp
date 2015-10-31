@@ -82,7 +82,7 @@ int Patient::getMakeTime()
 
 void Patient::showInfo()
 {
-	cout << patientName << endl;
+	cout << this->makeTime << "min " << this->patientName << " " << this->cheifComplaint << " " << this->patientAge << this->patientSex << " " << this->expireTime << "," << this->diagnosticTime << "," << this->waitedTime << endl;
 }
 
 
@@ -95,7 +95,7 @@ Patient * Patient::operator=(Patient * p)
 
 ostream& operator<<(ostream& os, const Patient* p)
 {
-	os << p->makeTime <<"min " <<p->patientName << " "<< p->cheifComplaint<<" " << p->patientAge << p->patientSex << " " << p->expireTime << "," <<p->diagnosticTime <<","<< p->waitedTime << endl;
+	os << p-> patientName; 
 	return os;
 }
 

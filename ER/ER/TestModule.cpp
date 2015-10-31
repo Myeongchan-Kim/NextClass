@@ -33,7 +33,7 @@ void TestModule::Run()
 
 	while (m_time <= m_maxTime )
 	{
-		cout << "Time:" << m_time << endl;
+		cout << "**** Time:" << m_time << " ****"<<endl;
 		
 		community->SendPatients(m_time, singletonHospital);
 		
@@ -46,10 +46,18 @@ void TestModule::Run()
 		if (community->isAllSended() && singletonHospital->isEmpty()){
 			cout << "No more Patient." << endl;
 			singletonHospital->makeReport(report);
+			cout << endl;
 			break;
 		}
 
+		cout << endl;
 		m_time++;
+	}
+	if (m_time > m_maxTime)
+	{
+		cout << "Max time over." << endl;
+		singletonHospital->makeReport(report);
+		cout << endl;
 	}
 
 	cout << "--------Test Finished---------" << endl;

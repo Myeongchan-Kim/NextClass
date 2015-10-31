@@ -78,7 +78,7 @@ PatientGenerater::~PatientGenerater()
 
 void PatientGenerater::SendPatient(Patient* p, Hospital * hospital)
 {
-	cout << "Send : " << p << endl;
+	cout << p << " ";
 	hospital->admission(p);
 	return;
 }
@@ -86,6 +86,7 @@ void PatientGenerater::SendPatient(Patient* p, Hospital * hospital)
 
 void PatientGenerater::SendPatients(const int currentTime, Hospital * hospital)
 {
+	cout << "SendPatients : ";
 	for (int i = 0; i < pList->size(); i++)
 	{
 		if (pList->Get(i)->isTimeToAche(currentTime)) {
@@ -93,6 +94,7 @@ void PatientGenerater::SendPatients(const int currentTime, Hospital * hospital)
 			sendedPatientsNum++;
 		}
 	}
+	cout << endl;
 }
 
 bool PatientGenerater::isAllSended()
