@@ -30,7 +30,6 @@ public:
 	bool isTimeToAche(int time);
 	int getMakeTime();
 	void showInfo();
-
 	Patient* operator=(Patient* p);
 	friend ostream& operator<<(ostream& os, const Patient* p);
 };

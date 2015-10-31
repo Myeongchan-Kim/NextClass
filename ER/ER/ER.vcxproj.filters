@@ -104,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SamplePatientList.csv">
-      <Filter>Source Files\TestModule</Filter>
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
 </Project>

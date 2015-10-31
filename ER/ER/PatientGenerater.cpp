@@ -8,6 +8,9 @@ PatientGenerater::PatientGenerater(const char * fileName) : sendedPatientsNum(0)
 		return;
 	ifstream f;
 	f.open(fileName,ios::in);
+
+	cout << "Generate Patient from file" << endl;
+
 	while (!f.eof()) {
 		char row[STRLEN::MAX_ROW_LEN];
 		f.getline(row, STRLEN::MAX_ROW_LEN);
@@ -66,14 +69,13 @@ PatientGenerater::PatientGenerater(const char * fileName) : sendedPatientsNum(0)
 		pList->Add(p);
 	}
 	
-	cout << "Generate Patient from file" << endl;
 	cout << *pList << endl;
 }
 
 
 PatientGenerater::~PatientGenerater()
 {
-
+	delete[] pList;
 }
 
 void PatientGenerater::SendPatient(Patient* p, Hospital * hospital)
@@ -86,10 +88,13 @@ void PatientGenerater::SendPatient(Patient* p, Hospital * hospital)
 
 void PatientGenerater::SendPatients(const int currentTime, Hospital * hospital)
 {
-	cout << "SendPatients : ";
+	bool sendStartFlag = false;
 	for (int i = 0; i < pList->size(); i++)
 	{
 		if (pList->Get(i)->isTimeToAche(currentTime)) {
+			if (sendStartFlag == false)
+				cout << "SendPatients : ";
+			sendStartFlag = true;
 			SendPatient(pList->Get(i), hospital);
 			sendedPatientsNum++;
 		}

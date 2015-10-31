@@ -44,7 +44,7 @@ void Patient::expire()
 	if (expired == true)
 		return;
 
-	cout << patientName << "is expired." << endl;
+	cout << patientName << " is expired." << endl;
 
 	Hospital* hospital = Hospital::getInstance();
 	hospital->Expire(this); 
@@ -62,7 +62,7 @@ void Patient::discharge()
 	if (hospital->Discharge(this) < 0)
 		return;
 
-	cout << patientName << "is discharged." << endl;
+	cout << patientName << " is discharged." << endl;
 	discharged = true;
 
 }
@@ -88,7 +88,6 @@ void Patient::showInfo()
 }
 
 
-
 Patient * Patient::operator=(Patient * p)
 {
 	return p;
@@ -98,7 +97,7 @@ Patient * Patient::operator=(Patient * p)
 ostream& operator<<(ostream& os, const Patient* p)
 {
 	if (p != NULL)
-		os << p->patientName;
+		os << p->patientName <<"("<<p->cheifComplaint<<")";
 	else
 		os << "NULL";
 	return os;

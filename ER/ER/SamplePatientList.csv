@@ -55,7 +55,6 @@
 発切55,32,84,F,rinorrhea,URI,1,-1
 発切56,32,84,F,dyspnea,athma,1,-1
 発切57,32,84,F,rinorrhea,sinusitis,3,-1
-Park eun jong,32,91,F,abd.Pain,Appendicitis,3,20
 発切59,32,81,F,dyspnea,TerminalCancer,3,10
 発切60,32,81,F,DOA,DOA,3,1
 発切61,32,81,F,DOA,DOA,3,1
@@ -68,3 +67,4 @@ Park eun jong,32,91,F,abd.Pain,Appendicitis,3,20
 発切68,32,81,F,chestPain,MI,3,10
 発切69,32,72,M,mentalChange,drunken,3,-1
 発切70,32,88,F,trauma,SoftTissuePain,1,-1
+Park eun jong,32,91,F,abd.Pain,Appendicitis,3,10
