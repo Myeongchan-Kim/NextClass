@@ -19,7 +19,9 @@ TestModule::TestModule( Strategy* str,
 
 TestModule::~TestModule()
 {
-	delete community;
+	community->deletePatient();
+	singletonHospital->deleteAllList();
+	delete mainStrategy;
 }
 
 void TestModule::processing()

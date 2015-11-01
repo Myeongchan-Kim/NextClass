@@ -30,9 +30,6 @@
     <ClCompile Include="mainTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Reporter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FCFS.cpp">
       <Filter>Source Files\TestModule\Stretagy</Filter>
     </ClCompile>
@@ -62,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="ParkFirstFCFS.cpp">
       <Filter>Source Files\TestModule\Stretagy</Filter>
+    </ClCompile>
+    <ClCompile Include="Reporter.cpp">
+      <Filter>Source Files\TestModule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

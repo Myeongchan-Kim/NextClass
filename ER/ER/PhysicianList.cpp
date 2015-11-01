@@ -19,6 +19,16 @@ PhysicianList::~PhysicianList()
 
 }
 
+void PhysicianList::deleteAllPhysicianAndList()
+{
+	for (int i = 0; i < size(); i++)
+	{
+		delete list[i];
+	}
+
+	delete[] list;
+}
+
 Patient* PhysicianList::Pop(Patient* p)
 {
 	for (int i = 0; i < size(); i++)

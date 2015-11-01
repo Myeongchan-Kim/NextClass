@@ -21,4 +21,5 @@ public:
 	void SendPatient(Patient* p, Hospital * hospital);
 	bool isAllSended();
 	void SendPatients(const int time, Hospital* hospital);
+	void deletePatient();
 };

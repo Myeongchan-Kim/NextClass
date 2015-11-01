@@ -138,3 +138,10 @@ int Hospital::getExpireCount() const
 {
 	return expireCount;
 }
+
+void Hospital::deleteAllList()
+{
+	delete emergencyRoom;
+	delete waiting;
+	docList->deleteAllPhysicianAndList();
+}

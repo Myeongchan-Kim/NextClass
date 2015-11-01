@@ -12,5 +12,6 @@ public:
 	Patient* Pop(Patient* p);
 	Patient* Change(int i, Patient* p);
 	bool isNoPatient();
+	void deleteAllPhysicianAndList();
 };
 

@@ -75,7 +75,6 @@ PatientGenerater::PatientGenerater(const char * fileName) : sendedPatientsNum(0)
 
 PatientGenerater::~PatientGenerater()
 {
-	delete[] pList;
 }
 
 void PatientGenerater::SendPatient(Patient* p, Hospital * hospital)
@@ -108,4 +107,14 @@ bool PatientGenerater::isAllSended()
 		return false;
 	else
 		return true;
+}
+
+void PatientGenerater::deletePatient()
+{
+	for (int i = 0; i < pList->size(); i++)
+	{
+		delete pList->Get(i);
+	}
+
+	delete []pList;
 }

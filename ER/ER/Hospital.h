@@ -32,6 +32,7 @@ public:
 	int getDOACount() const;
 	int getDischargeCount() const;
 	PatientList* getEmergencyRoom() const;
+	void deleteAllList();
 
 	static Hospital* getInstance();
 };
