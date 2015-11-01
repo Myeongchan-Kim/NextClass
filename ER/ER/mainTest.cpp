@@ -8,10 +8,19 @@ void HappyBirthday(int i) {
 
 int main()
 {
-	Strategy* fcfs = new FCFS();
-	Strategy* pFirst = new ParkFirstFCFS();
+	Strategy* stra = nullptr;
+	int userInput = 0;
 
-	Strategy* stra = pFirst;
+	while (stra == nullptr){
+		cout << "Patient from File : " << endl;
+		cout << "Select stragtegy number.\n 1.FCFS  2.ParkFirst with FCFS \n >";
+		cin >> userInput;
+		if (userInput == 1)
+			stra = new FCFS();
+		else if (userInput == 2)
+			stra = new ParkFirstFCFS();
+	}
+
 	TestModule* t = new TestModule(stra);
 	t->Run();
 

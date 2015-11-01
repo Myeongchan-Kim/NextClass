@@ -9,7 +9,7 @@ PatientGenerater::PatientGenerater(const char * fileName) : sendedPatientsNum(0)
 	ifstream f;
 	f.open(fileName,ios::in);
 
-	cout << "Generate Patient from file" << endl;
+	cout << "Generate Patient from file : " << fileName <<endl;
 
 	while (!f.eof()) {
 		char row[STRLEN::MAX_ROW_LEN];

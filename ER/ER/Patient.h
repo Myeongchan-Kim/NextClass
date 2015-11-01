@@ -27,7 +27,7 @@ private:
 	char cheifComplaint[STRLEN::MAX_NAME_LEN];
 	char diseaseName[STRLEN::MAX_NAME_LEN];
 	int diagnosticTime;
-	int expireTime;
+	int expireTime; //if expireTime were -1, it's not enogh severe to die.
 	int waitedTime;
 	bool discharged;
 	bool expired;

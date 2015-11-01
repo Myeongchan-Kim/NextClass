@@ -21,7 +21,6 @@ TestModule::~TestModule()
 {
 	community->deletePatient();
 	singletonHospital->deleteAllList();
-	delete mainStrategy;
 }
 
 void TestModule::processing()

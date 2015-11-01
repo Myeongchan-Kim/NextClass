@@ -5,9 +5,11 @@
 class Hospital;
 class Strategy;
 
-enum MODULE_CONST{
-	MAX_TIME = 100
-};
+namespace MODULE_CONST
+{
+	const int MAX_TIME = 100;
+	const char* const DEFULAT_PATIENT_FILE_NAME = "SamplePatientList.csv";
+}
 
 class TestModule
 {
@@ -20,7 +22,7 @@ private:
 	int m_maxTime;
 	void ShowCurrentInfo();
 public:
-	TestModule(Strategy* mainStr, int physician_num = 3, const int maxTime = MODULE_CONST::MAX_TIME, const char * fileName = "SamplePatientList.csv");
+	TestModule(Strategy* mainStr, int physician_num = 3, const int maxTime =MODULE_CONST::MAX_TIME, const char * fileName = MODULE_CONST::DEFULAT_PATIENT_FILE_NAME);
 	~TestModule();
 	void Run();
 	void processing();
