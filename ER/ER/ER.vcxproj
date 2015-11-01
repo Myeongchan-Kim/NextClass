@@ -81,6 +81,7 @@
     <ClCompile Include="FCFS.cpp" />
     <ClCompile Include="Hospital.cpp" />
     <ClCompile Include="mainTest.cpp" />
+    <ClCompile Include="ParkFirstFCFS.cpp" />
     <ClCompile Include="Patient.cpp" />
     <ClCompile Include="PatientGenerater.cpp" />
     <ClCompile Include="PatientList.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="FCFS.h" />
     <ClInclude Include="Hospital.h" />
     <ClInclude Include="mainTest.h" />
+    <ClInclude Include="ParkFirstFCFS.h" />
     <ClInclude Include="Patient.h" />
     <ClInclude Include="PatientGenerater.h" />
     <ClInclude Include="PatientList.h" />

@@ -60,6 +60,9 @@
     <ClCompile Include="TestModule.cpp">
       <Filter>Source Files\TestModule</Filter>
     </ClCompile>
+    <ClCompile Include="ParkFirstFCFS.cpp">
+      <Filter>Source Files\TestModule\Stretagy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayList.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkFirstFCFS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

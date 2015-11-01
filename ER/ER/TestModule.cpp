@@ -4,7 +4,7 @@ using namespace std;
 
 void TestModule::ShowCurrentInfo()
 {
-	cout << "info" << endl;
+	// ...?
 }
 
 TestModule::TestModule( Strategy* str, 
@@ -45,7 +45,7 @@ void TestModule::Run()
 		
 		if (community->isAllSended() && singletonHospital->isEmpty()){
 			cout << "No more Patient." << endl;
-			singletonHospital->makeReport(report);
+			this->sendInfo(report);
 			cout << endl;
 			break;
 		}
@@ -56,9 +56,14 @@ void TestModule::Run()
 	if (m_time > m_maxTime)
 	{
 		cout << "Max time over." << endl;
-		singletonHospital->makeReport(report);
+		this->sendInfo(report);
 		cout << endl;
 	}
 
 	cout << "--------Test Finished---------" << endl;
+}
+
+void TestModule::sendInfo(Reporter *report)
+{
+	report->makeReport(this);
 }

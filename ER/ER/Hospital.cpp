@@ -6,7 +6,7 @@ using namespace std;
 
 Hospital * Hospital::instance = new Hospital();
 
-Hospital::Hospital() : docList(), expireCount(0), dischargeCount(0)
+Hospital::Hospital() : docList(), expireCount(0), dischargeCount(0), DOACount(0)
 {
 	docList = new PhysicianList("D.List");
 	emergencyRoom = new PatientList("ER");
@@ -40,6 +40,7 @@ void Hospital::timeSpend()
 
 void Hospital::admission(Patient * p)
 {
+	emergencyRoom->Add(p);
 	waiting->Add(p);
 }
 
@@ -50,12 +51,12 @@ int Hospital::Discharge(Patient* p)
 	{
 		;
 	}else{
-		int id = emergencyRoom->GetId(p);
+		int id = waiting->GetId(p);
 		if (id < 0) {
 			cerr << "Can't find Patient in ER" << endl;
 			return -1;
 		}
-		popP = emergencyRoom->Pop(id);
+		popP = waiting->Pop(id);
 	}
 
 	if (popP != p)
@@ -77,6 +78,8 @@ int Hospital::Expire(Patient* p)
 	}
 
 	expireCount++;
+	if (strcmp(p->getCC(), "DOA"))
+		DOACount++;
 
 	int id = waiting->GetId(p);
 	if (id < 0) {
@@ -104,10 +107,9 @@ bool Hospital::isEmpty()
 		return false;
 }
 
-void Hospital::makeReport(Reporter* report)
+void Hospital::sendInfo(Reporter* report)
 {
-	cout << "Expire : " << expireCount << endl;
-	cout << "Discharge : " << dischargeCount << endl;
+
 }
 
 Hospital * Hospital::getInstance()
@@ -115,4 +117,24 @@ Hospital * Hospital::getInstance()
 	if (instance == NULL)
 		instance = new Hospital();
 	return instance;
+}
+
+PatientList* Hospital::getEmergencyRoom() const
+{
+	return emergencyRoom;
+}
+
+int Hospital::getDischargeCount() const
+{
+	return dischargeCount;
+}
+
+int Hospital::getDOACount() const
+{
+	return DOACount;
+}
+
+int Hospital::getExpireCount() const
+{
+	return expireCount;
 }

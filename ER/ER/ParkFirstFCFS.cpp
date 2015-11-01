@@ -2,18 +2,18 @@
 #include "PatientList.h"
 #include "Physician.h"
 #include "PhysicianList.h"
-#include "FCFS.h"
+#include "ParkFirstFCFS.h"
 
-FCFS::FCFS() : Strategy()
+ParkFirstFCFS::ParkFirstFCFS() : Strategy()
 {
 }
 
 
-FCFS::~FCFS()
+ParkFirstFCFS::~ParkFirstFCFS()
 {
 }
 
-void FCFS::ChangePatients(PhysicianList* dList, PatientList* pList)
+void ParkFirstFCFS::ChangePatients(PhysicianList* dList, PatientList* pList)
 {
 	for (int i = 0; i < dList->size(); i++)
 	{
@@ -31,7 +31,15 @@ void FCFS::ChangePatients(PhysicianList* dList, PatientList* pList)
 				oldPatient = doctor->getMyPatient();
 				continue;
 			}
-			if (oldPatient->getMakeTime() > pList->Get(j)->getMakeTime()) {
+			if (strcmp(doctor->getMyPatient()->getName(), "Park eun jong") == 0)
+			{
+				break;
+			}
+			if (strcmp(pList->Get(j)->getName(), "Park eun jong") == 0)
+			{
+				pList->Set(j, doctor->Change(pList->Get(j)));
+				flag = true;
+			}else if (oldPatient->getMakeTime() > pList->Get(j)->getMakeTime()) {
 				pList->Set(j, doctor->Change(pList->Get(j)));
 				flag = true;
 			}
@@ -39,7 +47,7 @@ void FCFS::ChangePatients(PhysicianList* dList, PatientList* pList)
 		if (flag)
 			cout << doctor << "'s patient changed." << endl;
 		else
-			cout << doctor << " keep treating his patient." << doctor->getMyPatient() << endl;
+			cout << doctor << " keep treating his patient." << endl;
 	}
 	return;
 }

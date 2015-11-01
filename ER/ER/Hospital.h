@@ -9,11 +9,12 @@ class Hospital
 {
 private:
 	PhysicianList* docList;
-	PatientList* emergencyRoom; // room for 
+	PatientList* emergencyRoom; // all enter patient 
 	PatientList* waiting;
 
 	int expireCount;
 	int dischargeCount;
+	int DOACount;
 
 	static Hospital* instance;
 	Hospital();
@@ -25,8 +26,13 @@ public:
 	int Discharge(Patient* p);
 	int Expire(Patient* p);
 
-	void makeReport(Reporter* p);
+	void sendInfo(Reporter* p);
 	bool isEmpty();
+	int getExpireCount() const;
+	int getDOACount() const;
+	int getDischargeCount() const;
+	PatientList* getEmergencyRoom() const;
+
 	static Hospital* getInstance();
 };
 

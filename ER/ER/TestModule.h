@@ -24,4 +24,5 @@ public:
 	~TestModule();
 	void Run();
 	void processing();
+	void sendInfo(Reporter* report);
 };

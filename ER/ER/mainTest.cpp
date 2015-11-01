@@ -8,7 +8,10 @@ void HappyBirthday(int i) {
 
 int main()
 {
-	Strategy* stra = new FCFS();
+	Strategy* fcfs = new FCFS();
+	Strategy* pFirst = new ParkFirstFCFS();
+
+	Strategy* stra = pFirst;
 	TestModule* t = new TestModule(stra);
 	t->Run();
 
