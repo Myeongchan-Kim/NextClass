@@ -1,42 +1,18 @@
-#pragma comment(lib, "ws2_32")
-#include <winsock2.h>
-#include <Ws2tcpip.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <process.h>
+#include "main.h"
+#include "MultiThreadEchoServer.h"
 
-#define SERVERPORT 23452
-#define BUFSIZE    512
 
-// 소켓 함수 오류 출력 후 종료
-void err_quit(char *msg)
+MultiThreadEchoServer::MultiThreadEchoServer(int port): m_serverPort(port)
 {
-	LPVOID lpMsgBuf;
-	FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL, WSAGetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPTSTR)&lpMsgBuf, 0, NULL);
-	MessageBox(NULL, (LPCTSTR)lpMsgBuf, msg, MB_ICONERROR);
-	LocalFree(lpMsgBuf);
-	exit(1);
 }
 
-// 소켓 함수 오류 출력
-void err_display(char *msg)
+
+MultiThreadEchoServer::~MultiThreadEchoServer()
 {
-	LPVOID lpMsgBuf;
-	FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL, WSAGetLastError(),
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPTSTR)&lpMsgBuf, 0, NULL);
-	printf("[%s] %s", msg, (char *)lpMsgBuf);
-	LocalFree(lpMsgBuf);
 }
 
 // 클라이언트와 데이터 통신
-DWORD WINAPI ProcessClient(LPVOID arg) // arg is client_socket
+DWORD WINAPI MultiThreadEchoServer::ProcessClient(LPVOID arg) // arg is client_socket
 {
 	SOCKET client_socket = (SOCKET)arg;
 	int ret;
@@ -80,7 +56,7 @@ DWORD WINAPI ProcessClient(LPVOID arg) // arg is client_socket
 }
 
 
-int main(int argc, char *argv[])
+int MultiThreadEchoServer::run()
 {
 	int ret;
 
@@ -93,10 +69,11 @@ int main(int argc, char *argv[])
 	if (listen_sock == INVALID_SOCKET) err_quit("socket() err");
 
 	SOCKADDR_IN serveraddr;
-	ZeroMemory(&serveraddr, sizeof(serveraddr));
+	ZeroMemory(&serveraddr, sizeof(serveraddr)); 
 	serveraddr.sin_family = AF_INET;
+
 	ret = inet_pton(AF_INET, INADDR_ANY, (void*)&serveraddr.sin_addr.s_addr);
-	serveraddr.sin_port = htons(SERVERPORT);
+	serveraddr.sin_port = htons(m_serverPort);
 	ret = bind(listen_sock, (SOCKADDR*)&serveraddr, sizeof(serveraddr));
 	if (ret == SOCKET_ERROR) err_quit("bind() err");
 
@@ -120,7 +97,6 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-
 		//print client information
 		char clientIP[32];
 		inet_ntop(AF_INET, (void*)&clientaddr.sin_addr, clientIP, 32 - 1);
@@ -128,11 +104,12 @@ int main(int argc, char *argv[])
 
 		//make thread
 		hThread = CreateThread(NULL, 0, ProcessClient, (LPVOID)client_sock, 0, NULL);
-		
+
 		//release resource
 		if (hThread == NULL) // for child
 			closesocket(client_sock);
 		else
 			CloseHandle(hThread); //for parent
 	}
+	return 0;
 }
