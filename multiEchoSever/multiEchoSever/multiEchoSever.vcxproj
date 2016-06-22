@@ -144,10 +144,12 @@
   <ItemGroup>
     <ClCompile Include="MultiThreadEchoServer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SelectTCPechoSerVer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MultiThreadEchoServer.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="SelectTCPechoSerVer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <process.h>
-#include "MultiThreadEchoServer.h"
 
 #define SERVERPORT 23452
 #define BUFSIZE    512
