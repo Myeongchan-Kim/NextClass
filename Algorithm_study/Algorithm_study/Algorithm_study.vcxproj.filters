@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jumpGame.cpp">
+    <ClCompile Include="TrianglePath.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
