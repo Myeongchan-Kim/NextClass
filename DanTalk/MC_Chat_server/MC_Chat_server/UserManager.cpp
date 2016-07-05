@@ -81,14 +81,14 @@ std::tuple<ERROR_CODE, User*> UserManager::GetUser(const int sessionIndex)
 	auto pUser = FindUser(sessionIndex);
 
 	if (pUser == nullptr) {
-		return{ ERROR_CODE::USER_MGR_INVALID_SESSION_INDEX, nullptr };
+		return  std::tuple<ERROR_CODE, User*>(ERROR_CODE::USER_MGR_INVALID_SESSION_INDEX, nullptr);
 	}
 
 	if (pUser->IsConfirm() == false) {
-		return{ ERROR_CODE::USER_MGR_NOT_CONFIRM_USER, nullptr };
+		return std::tuple<ERROR_CODE, User*>( ERROR_CODE::USER_MGR_NOT_CONFIRM_USER, nullptr );
 	}
 
-	return{ ERROR_CODE::NONE, pUser };
+	return std::tuple<ERROR_CODE, User*>( ERROR_CODE::NONE, pUser );
 }
 
 User* UserManager::FindUser(const int sessionIndex)

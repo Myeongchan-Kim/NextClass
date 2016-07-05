@@ -27,6 +27,8 @@ void Lobby::Init(const short lobbyIndex, const short maxLobbyUserCount, const sh
 	{
 		m_RoomList.emplace_back(Room());
 		m_RoomList[i].Init((short)i, maxRoomUserCount);
+		WCHAR roomName[] = L"MyRoom";
+		m_RoomList[i].CreateRoom(roomName);
 	}
 }
 

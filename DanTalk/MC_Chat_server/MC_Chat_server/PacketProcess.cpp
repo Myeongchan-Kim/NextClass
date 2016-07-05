@@ -153,6 +153,9 @@ CHECK_ERR:
 		sizeof(Packet::PktLobbyListRes),
 		(char*)&resPkt
 	); //여기 원본 변수명이 좀 이상함!
+
+	//m_pRefLogger->Write(LOG_TYPE::L_INFO, "%s | res Lobbylist. ", __FUNCTION__);
+
 	return (ERROR_CODE)__result;
 }
 
@@ -201,6 +204,7 @@ ERROR_CODE PacketProcess::LobbyEnter(PacketInfo packetInfo)
 	resPkt.MaxRoomCount = pLobby->MaxRoomCount();
 	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::LOBBY_ENTER_RES, sizeof(Packet::PktLobbyEnterRes), (char*)&resPkt);
 
+	return ERROR_CODE::NONE;
 CHECK_ERR:
 	resPkt.SetError(__result);
 	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::LOBBY_ENTER_RES, sizeof(Packet::PktLobbyEnterRes), (char*)&resPkt);
