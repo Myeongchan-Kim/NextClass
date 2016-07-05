@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DD7C5284-159F-4C42-AB87-640AA807D19D}</ProjectGuid>
+    <ProjectGuid>{CFAE7195-CAEC-4247-85FC-7D28BAB384C7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>echoServer</RootNamespace>
+    <RootNamespace>Jagual3</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -29,7 +29,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -142,7 +142,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="echoServer.cpp" />
+    <ClCompile Include="BFS_DFS.cpp" />
+    <ClCompile Include="CountBinaryTree.cpp" />
+    <ClCompile Include="CutRod.cpp" />
+    <ClCompile Include="fibonacci.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ShortestDis.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
