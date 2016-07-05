@@ -7,4 +7,4 @@ Client ->
 "python MCDanTalk_client.py"
 
 ## c++ dantalk
-in : Network/
+in : Network_class/
