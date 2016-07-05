@@ -142,6 +142,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="conmanip.h" />
+    <ClInclude Include="ConsoleLogger.h" />
+    <ClInclude Include="ILog.h" />
+    <ClInclude Include="ITcpNetwork.h" />
+    <ClInclude Include="Lobby.h" />
+    <ClInclude Include="LobbyManager.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketProcess.h" />
+    <ClInclude Include="Room.h" />
+    <ClInclude Include="ServerConfig.h" />
+    <ClInclude Include="TcpNetwork.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="UserManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="LobbyManager.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PacketProcess.cpp" />
+    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="ServerConfig.cpp" />
+    <ClCompile Include="TcpNetwork.cpp" />
+    <ClCompile Include="User.cpp" />
+    <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
