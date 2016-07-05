@@ -16,12 +16,10 @@ struct Node
 				return true;
 		return false;
 	}
-
 	void connect(Node* pNode) //단방향 연결
 	{
 		if (isNeighbor(pNode))
 			return;
-
 		neighbors.push_back(pNode);
 	}
 };
