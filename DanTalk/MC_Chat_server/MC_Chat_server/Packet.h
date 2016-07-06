@@ -13,7 +13,8 @@ public:
 	static const int MAX_NTF_LOBBY_ROOM_LIST_COUNT = 12;
 	static const int MAX_SEND_LOBBY_USER_LIST_COUNT = 32;
 	static const int MAX_ROOM_CHAT_MSG_SIZE = 256;
-	
+	static const int MAX_LOBBY_CHAT_MSG_SIZE = 256;
+
 	struct PktHeader
 	{
 		short Id;
@@ -182,6 +183,24 @@ public:
 		wchar_t Msg[MAX_ROOM_CHAT_MSG_SIZE + 1] = { 0, };
 	};
 
+	//- 로비 채팅
+	struct PktLobbyChatReq
+	{
+		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
+	};
+
+	struct PktLobbyChatRes : PktBase
+	{
+	};
+
+	struct PktLobbyChatNtf
+	{
+		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
+		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
+	};
+
+
+	//
 	struct RecvPacketInfo
 	{
 		int SessionIndex = 0;

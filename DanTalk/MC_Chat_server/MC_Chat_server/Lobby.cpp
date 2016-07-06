@@ -265,3 +265,12 @@ void Lobby::NotifyChangedRoomInfo(const short roomIndex)
 
 	SendToAllUser((short)PACKET_ID::ROOM_CHANGED_INFO_NTF, sizeof(pktNtf), (char*)&pktNtf);
 }
+
+void Lobby::NotifyChat(const int sessionIndex, const char* pszUserID, const wchar_t* pszMsg)
+{
+	Packet::PktLobbyChatNtf pkt;
+	strncpy_s(pkt.UserID, _countof(pkt.UserID), pszUserID, Packet::MAX_USER_ID_SIZE);
+	wcsncpy_s(pkt.Msg, Packet::MAX_LOBBY_CHAT_MSG_SIZE + 1, pszMsg, Packet::MAX_LOBBY_CHAT_MSG_SIZE);
+
+	SendToAllUser((short)PACKET_ID::LOBBY_CHAT_NTF, sizeof(pkt), (char*)&pkt, sessionIndex);
+}

@@ -31,6 +31,7 @@ public:
 
 	void Process(PacketInfo packetInfo);
 
+	void StateCheck();
 private:
 	ILog* m_pRefLogger;
 	TcpNet* m_pRefNetwork;
@@ -46,7 +47,8 @@ private:
 	ERROR_CODE LobbyRoomList(PacketInfo packetInfo);
 	ERROR_CODE LobbyUserList(PacketInfo packetInfo);
 	ERROR_CODE LobbyLeave(PacketInfo packetInfo);
-	//ERROR_CODE RoomEnter(PacketInfo packetInfo);
+	ERROR_CODE RoomEnter(PacketInfo packetInfo);
 	//ERROR_CODE RoomLeave(PacketInfo packetInfo);
 	//ERROR_CODE RoomChat(PacketInfo packetInfo);
+	ERROR_CODE LobbyChat(PacketInfo packetInfo);
 };

@@ -67,6 +67,8 @@ void App::Run()
 			m_pPacketProc->Process(packetInfo);
 		}
 
+		m_pPacketProc->StateCheck();
+
 		std::this_thread::sleep_for(std::chrono::milliseconds(0));
 	}
 }
