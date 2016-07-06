@@ -91,6 +91,21 @@ std::tuple<ERROR_CODE, User*> UserManager::GetUser(const int sessionIndex)
 	return std::tuple<ERROR_CODE, User*>( ERROR_CODE::NONE, pUser );
 }
 
+std::tuple<ERROR_CODE, User*> UserManager::GetUser(const char * pszID)
+{
+	auto pUser = FindUser(pszID);
+
+	if (pUser == nullptr) {
+		return  std::tuple<ERROR_CODE, User*>(ERROR_CODE::USER_MGR_INVALID_SESSION_INDEX, nullptr);
+	}
+
+	if (pUser->IsConfirm() == false) {
+		return std::tuple<ERROR_CODE, User*>(ERROR_CODE::USER_MGR_NOT_CONFIRM_USER, nullptr);
+	}
+
+	return std::tuple<ERROR_CODE, User*>(ERROR_CODE::NONE, pUser);
+}
+
 User* UserManager::FindUser(const int sessionIndex)
 {
 	auto findIter = m_UserSessionDic.find(sessionIndex);
@@ -111,5 +126,6 @@ User* UserManager::FindUser(const char* pszID)
 		return nullptr;
 	}
 
+	//auto pUser = (User*)&findIter->second;
 	return (User*)findIter->second;
 }

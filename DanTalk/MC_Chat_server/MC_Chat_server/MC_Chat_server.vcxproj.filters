@@ -24,12 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="conmanip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ITcpNetwork.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
@@ -51,9 +45,6 @@
     <ClInclude Include="ConsoleLogger.h">
       <Filter>Header Files\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="Packet.h">
-      <Filter>Header Files\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Lobby.h">
       <Filter>Header Files\Logic</Filter>
     </ClInclude>
@@ -68,6 +59,15 @@
     </ClInclude>
     <ClInclude Include="ServerConfig.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conmanip.h">
+      <Filter>Header Files\Logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

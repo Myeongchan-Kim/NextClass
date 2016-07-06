@@ -238,6 +238,12 @@ void Lobby::SendToAllUser(const short packetId, const short dataSize, char* pDat
 	}
 }
 
+void Lobby::SendToTargetUser(const short packetId, const short dataSize, char* pData, const int targetUserIndex)
+{
+	m_pRefNetwork->SendData(targetUserIndex, packetId, dataSize, pData);
+}
+
+
 Room* Lobby::GetRoom(const short roomIndex)
 {
 	if (roomIndex < 0 || roomIndex >= m_RoomList.size()) {
@@ -273,4 +279,14 @@ void Lobby::NotifyChat(const int sessionIndex, const char* pszUserID, const wcha
 	wcsncpy_s(pkt.Msg, Packet::MAX_LOBBY_CHAT_MSG_SIZE + 1, pszMsg, Packet::MAX_LOBBY_CHAT_MSG_SIZE);
 
 	SendToAllUser((short)PACKET_ID::LOBBY_CHAT_NTF, sizeof(pkt), (char*)&pkt, sessionIndex);
+}
+
+void Lobby::NotifyWhisper(const int targetSessionIndex, const char* pszUserID, const char* targetUserID, const wchar_t* pszMsg)
+{
+	Packet::PktLobbyWhisperNtf pkt;
+	strncpy_s(pkt.UserID, _countof(pkt.UserID), pszUserID, Packet::MAX_USER_ID_SIZE);
+	strncpy_s(pkt.TargetUserID, _countof(pkt.TargetUserID), targetUserID, Packet::MAX_USER_ID_SIZE);
+	wcsncpy_s(pkt.Msg, Packet::MAX_LOBBY_WHISPER_MSG_SIZE + 1, pszMsg, Packet::MAX_LOBBY_WHISPER_MSG_SIZE);
+
+	SendToTargetUser((short)PACKET_ID::LOBBY_WHISPER_NTF, sizeof(pkt), (char*)&pkt, targetSessionIndex);
 }

@@ -41,6 +41,7 @@ public:
 	void NotifyLobbyEnterUserInfo(User* pUser);
 	void NotifyLobbyLeaveUserInfo(User* pUser);
 	void NotifyChat(const int sessionIndex, const char* pszUserID, const wchar_t* pszMsg);
+	void NotifyWhisper(const int sessionIndex, const char* pszUserID, const char* targetUserID, const wchar_t* pszMsg);
 
 	ERROR_CODE SendRoomList(const int sessionId, const short startRoomId);
 	ERROR_CODE SendUserList(const int sessionId, const short startUserIndex);
@@ -54,6 +55,7 @@ public:
 
 protected:
 	void SendToAllUser(const short packetId, const short dataSize, char* pData, const int passUserindex = -1);
+	void SendToTargetUser(const short packetId, const short dataSize, char* pData, const int targetUserIndex);
 
 protected:
 	User* FindUser(const int userIndex);

@@ -38,14 +38,11 @@ public:
 
 	ERROR_CODE LeaveUser(const short userIndex);
 
+	void NotifyEnterUserInfo(const int userIndex, const char* pszUserID);
+	void NotifyLeaveUserInfo(const char* pszUserID);
+	void NotifyChat(const int sessionIndex, const char* pszUserID, const wchar_t* pszMsg);
 
 	void SendToAllUser(const short packetId, const short dataSize, char* pData, const int passUserindex = -1);
-
-	void NotifyEnterUserInfo(const int userIndex, const char* pszUserID);
-
-	void NotifyLeaveUserInfo(const char* pszUserID);
-
-	void NotifyChat(const int sessionIndex, const char* pszUserID, const wchar_t* pszMsg);
 
 private:
 	ILog* m_pRefLogger;

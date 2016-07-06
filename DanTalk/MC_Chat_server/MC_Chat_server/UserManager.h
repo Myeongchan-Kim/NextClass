@@ -20,6 +20,7 @@ public:
 	ERROR_CODE RemoveUser(const int sessionIndex);
 
 	std::tuple<ERROR_CODE, User*> GetUser(const int sessionIndex);
+	std::tuple<ERROR_CODE, User*> GetUser(const char* pszID);
 
 private:
 	User* AllocUserObjPoolIndex();

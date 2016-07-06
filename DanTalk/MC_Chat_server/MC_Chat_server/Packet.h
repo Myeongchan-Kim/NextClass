@@ -14,6 +14,7 @@ public:
 	static const int MAX_SEND_LOBBY_USER_LIST_COUNT = 32;
 	static const int MAX_ROOM_CHAT_MSG_SIZE = 256;
 	static const int MAX_LOBBY_CHAT_MSG_SIZE = 256;
+	static const int MAX_LOBBY_WHISPER_MSG_SIZE = 256;
 
 	struct PktHeader
 	{
@@ -196,6 +197,24 @@ public:
 	struct PktLobbyChatNtf
 	{
 		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
+		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
+	};
+
+	//- ·Îºñ ±Ó¸»
+	struct PktLobbyWhisperReq
+	{
+		char TargetUserID[MAX_USER_ID_SIZE + 1] = { 0, };
+		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
+	};
+
+	struct PktLobbyWhisperRes : PktBase
+	{
+	};
+
+	struct PktLobbyWhisperNtf
+	{
+		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
+		char TargetUserID[MAX_USER_ID_SIZE + 1] = { 0, };
 		wchar_t Msg[MAX_LOBBY_CHAT_MSG_SIZE + 1] = { 0, };
 	};
 
