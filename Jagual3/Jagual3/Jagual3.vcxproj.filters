@@ -13,21 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Graph">
+      <UniqueIdentifier>{3e945e62-ebdd-41a4-a5ab-9ed2bf334f0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tree">
+      <UniqueIdentifier>{b9bf9059-9ea7-4a85-9099-2217e6b19059}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CountBinaryTree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BFS_DFS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="fibonacci.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CutRod.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShortestDis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -36,16 +33,25 @@
     <ClCompile Include="MatrixMultiple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Source Files\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Source Files\Graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MatrixMultiple.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClInclude Include="Graph.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Graph</Filter>
     </ClInclude>
     <ClInclude Include="Tree.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Tree</Filter>
     </ClInclude>
-    <ClInclude Include="MatrixMultiple.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="main.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

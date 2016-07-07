@@ -1,55 +1,46 @@
 #pragma once
 #include <vector>
+#include <memory>
 using namespace std;
 
-/*BFS DFS*/
-struct Node
+class Graph
 {
-	int value;
-	bool checked = false;
-	vector<Node*> neighbors;
+public:
+	Graph() {};
+	~Graph() {};
 
-	bool isNeighbor(Node * pNode)
+	/*shortest Distance*/
+	struct Vertex;
+	struct Edge
 	{
-		for (auto neighbor : neighbors)
-			if (pNode == neighbor)
-				return true;
-		return false;
-	}
-	void connect(Node* pNode) //단방향 연결
+		int weight;
+		Vertex* source;
+		Vertex* dest;
+	};
+	struct Vertex
 	{
-		if (isNeighbor(pNode))
-			return;
-		neighbors.push_back(pNode);
-	}
+		int id;
+		int value;
+		int minDist;
+		bool checked = false;
+
+		vector<Edge*> outList;
+		vector<Edge*> inList;
+	};
+
+	int ShortestDist(Vertex* s, Vertex* z);
+	void BFS(Vertex* pStartNode);
+
+	void insert(Vertex* pNode){
+		vList.push_back(pNode);
+		pNode->id = curId;
+		curId++;
+	};
+	void insert(Edge* edge) {
+		edge->source->outList.push_back(edge);
+		edge->dest->inList.push_back(edge);
+	};
+private:
+	int curId = 0;
+	vector<Vertex*> vList;
 };
-
-struct Graph
-{
-	vector<Node*> nodeList;
-	void insert(Node* pNode)
-	{
-		nodeList.push_back(pNode);
-	}
-
-
-	void BFS(Node* pStartNode);
-};
-
-
-/*shortest Distance*/
-struct Edge
-{
-	int weight;
-	Vertex* source;
-	Vertex* dest;
-};
-
-struct Vertex
-{
-	int minDist;
-	vector<Edge*> outList;
-	vector<Edge*> inList;
-};
-
-int ShortestDist(Vertex* s, Vertex* z);

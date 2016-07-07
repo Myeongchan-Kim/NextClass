@@ -142,16 +142,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BFS_DFS.cpp" />
-    <ClCompile Include="CountBinaryTree.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="CutRod.cpp" />
     <ClCompile Include="fibonacci.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixMultiple.cpp" />
-    <ClCompile Include="ShortestDis.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="MatrixMultiple.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
