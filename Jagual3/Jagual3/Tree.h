@@ -1,5 +1,5 @@
 #pragma once
-#define INF 9876543210
+#include "main.h"
 
 class Tree
 {

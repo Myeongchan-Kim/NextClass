@@ -1,7 +1,7 @@
 #include "Graph.h"
+#include "main.h"
 #include <queue>
 #include <vector>
-#define MAX_VAL 987654321;
 
 using namespace std;
 
@@ -41,7 +41,7 @@ int Graph::ShortestDist(Vertex* s, Vertex* z)
 	if (s == z) return 0;
 	if (z->minDist != -1) return z->minDist;
 
-	int minResult = MAX_VAL;
+	int minResult = INF;
 	int result;
 	for (auto& edge : z->inList)
 	{

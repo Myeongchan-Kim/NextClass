@@ -1,5 +1,5 @@
+#include "main.h"
 #include "MatrixMultiple.h"
-#define MAX_VAL 987654321
 
 int MatrixMultiple::CalcSmalistMul(int startId, int endId, Matrix * M)
 {
@@ -8,7 +8,7 @@ int MatrixMultiple::CalcSmalistMul(int startId, int endId, Matrix * M)
 	if (minTable[startId][endId] != -1)
 		return minTable[startId][endId];
 
-	int minVal = MAX_VAL;
+	int minVal = INF;
 	for (int endOfFirst = startId; endOfFirst < endId; endOfFirst++)
 	{
 		int val =
@@ -33,7 +33,7 @@ int MatrixMultiple::CalcSmalistMulBottomUp(Matrix * M, int N)
 			}
 			else
 			{
-				int minVal = MAX_VAL;
+				int minVal = INF;
 				for (int endOfFirst = startId; endOfFirst < endId; endOfFirst++)
 				{
 					int val =

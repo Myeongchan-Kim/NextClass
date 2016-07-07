@@ -1,4 +1,4 @@
-#define MAX 1000000
+#pragma once
 #include <iostream>
 using namespace std;
 
@@ -7,17 +7,6 @@ int Fibonacci(int n)
 	if (n == 0 || n == 1)
 		return n;
 	return Fibonacci(n - 1) + Fibonacci(n - 2);
-}
-
-int CallFiboTopdown(int n)
-{
-	int* res = new int[n + 1];
-	for (int i = 0; i < n + 1; i++)
-		res[i] = -1;
-
-	int result = FiboTopdown(n, res);
-	delete[] res;
-	return result;
 }
 
 int FiboTopdown(int n, int * res)
@@ -31,6 +20,17 @@ int FiboTopdown(int n, int * res)
 		res[n] = FiboTopdown(n - 1, res) + FiboTopdown(n - 2, res);
 
 	return res[n];
+}
+
+int CallFiboTopdown(int n)
+{
+	int* res = new int[n + 1];
+	for (int i = 0; i < n + 1; i++)
+		res[i] = -1;
+
+	int result = FiboTopdown(n, res);
+	delete[] res;
+	return result;
 }
 
 int FibonacciBottomup(int n)
@@ -57,7 +57,7 @@ int MyFibonacci(int n)
 	 
 	int fiboN_2 = 0;
 	int fiboN_1 = 1;
-	int result = 1;
+	int result; 
 
 	for (int i = 2; i < n; i++)
 	{
@@ -67,4 +67,4 @@ int MyFibonacci(int n)
 	}
 
 	return result;
-}
+} 

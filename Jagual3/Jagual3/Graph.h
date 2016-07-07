@@ -33,14 +33,15 @@ public:
 
 	void insert(Vertex* pNode){
 		vList.push_back(pNode);
-		pNode->id = curId;
-		curId++;
+		pNode->id = m_CurId;
+		m_CurId++;
 	};
 	void insert(Edge* edge) {
 		edge->source->outList.push_back(edge);
 		edge->dest->inList.push_back(edge);
 	};
+
 private:
-	int curId = 0;
+	int m_CurId = 0;
 	vector<Vertex*> vList;
 };

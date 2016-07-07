@@ -1,3 +1,4 @@
+#pragma once
 
 int MaxPrice(int length, int* priceTable)
 {
