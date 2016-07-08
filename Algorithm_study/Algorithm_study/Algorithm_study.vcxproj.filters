@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="memoryClear_7579.cpp">
+    <ClCompile Include="Polynomio.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Numb3rs_dunibal.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
