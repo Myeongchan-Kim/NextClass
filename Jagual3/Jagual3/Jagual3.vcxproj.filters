@@ -39,6 +39,9 @@
     <ClCompile Include="CutRod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LongestCommonStr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatrixMultiple.h">

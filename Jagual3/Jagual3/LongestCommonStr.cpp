@@ -34,9 +34,9 @@ void PrintLongestCommonString(RetEle** retTable, string& strX, string& strY)
 		}
 	}
 
-	cout << answerStack << endl;
+	cout << "reverse answer : " << answerStack << endl;
 	answerStack.reserve(answerStack.size());
-	cout << answerStack << endl;
+	cout << "answer : " << answerStack << endl;
 }
 
 void LongestCommonBotup(string& strX, string& strY)

@@ -5,6 +5,41 @@
 
 using namespace std;
 
+Graph::Graph()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		Graph::Vertex* v1 = new Graph::Vertex;
+		v1->value = i;
+		insert(v1);
+	}
+}
+
+Graph::~Graph()
+{
+	for (auto& vertex : vList)
+	{
+		for (auto& edge : vertex->outList)
+		{
+			if (edge != nullptr)
+			{
+				delete edge;
+				edge = nullptr;
+			}
+		}
+		delete vertex;
+		vertex = nullptr;
+	}
+}
+
+void Graph::initVertex()
+{
+	for (auto& pVtx : vList)
+	{
+		pVtx->checked = false;
+		pVtx->minDist = -1;
+	}
+}
 
 void Graph::BFS(Vertex* pStartNode)
 {
