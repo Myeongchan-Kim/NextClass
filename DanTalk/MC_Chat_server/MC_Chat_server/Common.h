@@ -68,6 +68,9 @@ public:
 		LOGIN_IN_REQ = 21,
 		LOGIN_IN_RES = 22,
 
+		LOGIN_OUT_REQ = 23,
+		LOGIN_OUT_RES = 24,
+
 		LOBBY_LIST_REQ = 26,
 		LOBBY_LIST_RES = 27,
 

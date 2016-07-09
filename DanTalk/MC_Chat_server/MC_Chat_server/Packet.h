@@ -40,6 +40,16 @@ public:
 	};
 
 
+	//- 로그아웃 요청
+	struct PktLogOutReq : PktBase
+	{
+	};
+
+	struct PktLogOutRes : PktBase
+	{
+	};
+
+
 	//- 채널 리스트 요청
 	struct LobbyListInfo
 	{

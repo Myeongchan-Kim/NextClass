@@ -34,6 +34,6 @@ private:
 	std::deque<int> m_UserObjPoolIndex;
 
 	std::unordered_map<int, User*> m_UserSessionDic;
-	std::unordered_map<const char*, User*> m_UserIDDic; //char*는 key로 사용못함
+	std::unordered_map<std::string, User*> m_UserIDDic; //char*는 key로 사용못함
 
 };

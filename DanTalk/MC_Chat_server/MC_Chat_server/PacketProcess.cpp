@@ -24,6 +24,7 @@ void PacketProcess::Init(TcpNet* pNetwork, UserManager* pUserMgr, LobbyManager* 
 
 	PacketFuncArray[(int)PACKET_ID::NTF_SYS_CLOSE_SESSION] = &PacketProcess::NtfSysCloseSesson;
 	PacketFuncArray[(int)PACKET_ID::LOGIN_IN_REQ] = &PacketProcess::Login;
+	PacketFuncArray[(int)PACKET_ID::LOGIN_OUT_REQ] = &PacketProcess::Logout;
 	PacketFuncArray[(int)PACKET_ID::LOBBY_LIST_REQ] = &PacketProcess::LobbyList;
 	PacketFuncArray[(int)PACKET_ID::LOBBY_ENTER_REQ] = &PacketProcess::LobbyEnter;
 	PacketFuncArray[(int)PACKET_ID::LOBBY_ENTER_ROOM_LIST_REQ] = &PacketProcess::LobbyRoomList;
@@ -50,44 +51,90 @@ void PacketProcess::Process(PacketInfo packetInfo)
 
 void PacketProcess::StateCheck()
 {
-	m_pConnectedUserManager->LoginCheck();
+	//m_pConnectedUserManager->LoginCheck();
 }
 
 ERROR_CODE PacketProcess::NtfSysCloseSesson(PacketInfo packetInfo)
 {
 	auto pUser = std::get<1>(m_pRefUserMgr->GetUser(packetInfo.SessionIndex));
 
-	if (pUser)
-	{
-		auto pLobby = m_pRefLobbyMgr->GetLobby(pUser->GetLobbyIndex());
-		if (pLobby)
-		{
-			auto pRoom = pLobby->GetRoom(pUser->GetRoomIndex());
-
-			if (pRoom)
-			{
-				pRoom->LeaveUser(pUser->GetIndex());
-				pRoom->NotifyLeaveUserInfo(pUser->GetID().c_str());
-				pLobby->NotifyChangedRoomInfo(pRoom->GetIndex());
-
-				m_pRefLogger->Write(LOG_TYPE::L_INFO, "%s | NtfSysCloseSesson. sessionIndex(%d). Room Out", __FUNCTION__, packetInfo.SessionIndex);
-			}
-
-			pLobby->LeaveUser(pUser->GetIndex());
-
-			if (pRoom == nullptr) {
-				pLobby->NotifyLobbyLeaveUserInfo(pUser);
-			}
-
-			m_pRefLogger->Write(LOG_TYPE::L_INFO, "%s | NtfSysCloseSesson. sessionIndex(%d). Lobby Out", __FUNCTION__, packetInfo.SessionIndex);
-		}
-
-		m_pRefUserMgr->RemoveUser(packetInfo.SessionIndex);
-	}
-
+	LeaveAllAndLogout(pUser, packetInfo.SessionIndex);
 
 	m_pRefLogger->Write(LOG_TYPE::L_INFO, "%s | NtfSysCloseSesson. sessionIndex(%d)", __FUNCTION__, packetInfo.SessionIndex);
 	return ERROR_CODE::NONE;
+}
+
+ERROR_CODE PacketProcess::LeaveAllAndLogout(User* pUser, int sessionId)
+{
+	if (pUser == nullptr)
+		return ERROR_CODE::NONE;
+
+	auto pLobby = m_pRefLobbyMgr->GetLobby(pUser->GetLobbyIndex());
+	if (pLobby)
+	{
+		auto pRoom = pLobby->GetRoom(pUser->GetRoomIndex());
+
+		if (pRoom)
+		{
+			pRoom->LeaveUser(pUser->GetIndex());
+			pRoom->NotifyLeaveUserInfo(pUser->GetID().c_str());
+			pLobby->NotifyChangedRoomInfo(pRoom->GetIndex());
+
+			m_pRefLogger->Write(LOG_TYPE::L_INFO, "%s | NtfSysCloseSesson. sessionIndex(%d). Room Out", __FUNCTION__, sessionId);
+		}
+
+		pLobby->LeaveUser(pUser->GetIndex());
+
+		if (pRoom == nullptr) {
+			pLobby->NotifyLobbyLeaveUserInfo(pUser);
+		}
+
+		m_pRefLogger->Write(LOG_TYPE::L_INFO, "%s | NtfSysCloseSesson. sessionIndex(%d). Lobby Out", __FUNCTION__, sessionId);
+	}
+
+	auto result = m_pRefUserMgr->RemoveUser(sessionId);
+	return result;
+}
+
+
+/****     ****/
+/* log  out  */
+/*******  ****/
+ERROR_CODE PacketProcess::Logout(PacketInfo packetInfo)
+{
+	CHECK_START;
+	Packet::PktLogOutRes resPkt;
+	auto reqPkt = (Packet::PktLogOutReq*)packetInfo.pRefData;
+					
+	auto pUser = std::get<1>(m_pRefUserMgr->GetUser(packetInfo.SessionIndex));
+
+	//방과 로비를 빠져나감 처리하고, 유저목록에서 제거.
+	auto delRet = LeaveAllAndLogout(pUser, packetInfo.SessionIndex);
+		
+	if (delRet != ERROR_CODE::NONE)
+	{
+		CHECK_ERROR(delRet);
+	}
+
+	resPkt.ErrorCode = (short)delRet;
+	m_pRefNetwork->SendData(
+		packetInfo.SessionIndex,
+		(short)PACKET_ID::LOGIN_OUT_RES,
+		sizeof(Packet::PktLogOutRes),
+		(char*)&resPkt
+	);
+
+	return ERROR_CODE::NONE;
+
+CHECK_ERR:
+	resPkt.SetError(__result);
+	m_pRefNetwork->SendData(
+		packetInfo.SessionIndex,
+		(short)PACKET_ID::LOGIN_OUT_RES,
+		sizeof(Packet::PktLogOutRes),
+		(char*)&resPkt
+	);
+	return (ERROR_CODE)__result;
 }
 
 /***********************/
@@ -343,23 +390,24 @@ CHECK_ERR:
 
 ERROR_CODE PacketProcess::RoomEnter(PacketInfo packetInfo)
 {
-	CHECK_START
-	// 현재 로비에 있는지 조사한다.
-	// 룸에 들어간다
-	// 룸에 있는 사람들에게 룸에 사람이 왔다고 알려준다. 
-	// 기존 로비에 있는 사람에게 로비에서 사람이 나갔다고 알려준다. 
-	Packet::PktRoomEnterRes resPkt;
-	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);
-	auto errorCode = std::get<0>(pUserRet);
-
-	if (errorCode != ERROR_CODE::NONE) {
-		CHECK_ERROR(errorCode);
-	}
-
-	/* TODO :: ROOM ENTER*/
-
-CHECK_ERR:
-
+//	CHECK_START
+//	// 현재 로비에 있는지 조사한다.
+//	// 룸에 들어간다
+//	// 룸에 있는 사람들에게 룸에 사람이 왔다고 알려준다. 
+//	// 기존 로비에 있는 사람에게 로비에서 사람이 나갔다고 알려준다. 
+//	Packet::PktRoomEnterRes resPkt;
+//	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);
+//	auto errorCode = std::get<0>(pUserRet);
+//
+//	if (errorCode != ERROR_CODE::NONE) {
+//		CHECK_ERROR(errorCode);
+//	}
+//
+//	/* TODO :: ROOM ENTER*/
+//
+//CHECK_ERR:
+//
+	return ERROR_CODE::NONE;
 }
 
 ERROR_CODE PacketProcess::LobbyChat(PacketInfo packetInfo)

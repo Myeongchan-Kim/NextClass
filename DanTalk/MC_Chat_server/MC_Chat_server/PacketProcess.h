@@ -42,6 +42,7 @@ private:
 private:
 	ERROR_CODE NtfSysCloseSesson(PacketInfo packetInfo);
 	ERROR_CODE Login(PacketInfo packetInfo);
+	ERROR_CODE Logout(PacketInfo packetInfo);
 	ERROR_CODE LobbyList(PacketInfo packetInfo);
 	ERROR_CODE LobbyEnter(PacketInfo packetInfo);
 	ERROR_CODE LobbyRoomList(PacketInfo packetInfo);
@@ -53,4 +54,5 @@ private:
 	ERROR_CODE LobbyChat(PacketInfo packetInfo);
 	ERROR_CODE LobbyWhisper(PacketInfo packetInfo);
 
+	ERROR_CODE LeaveAllAndLogout(User* pUser, int SessionId);
 };

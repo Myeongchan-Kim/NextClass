@@ -67,10 +67,10 @@ ERROR_CODE UserManager::RemoveUser(const int sessionIndex)
 	}
 
 	auto index = pUser->GetIndex();
-	auto pszID = pUser->GetID();
+	auto& pszID = pUser->GetID();
 
 	m_UserSessionDic.erase(sessionIndex);
-	m_UserIDDic.erase(pszID.c_str());
+	m_UserIDDic.erase(pszID);
 	ReleaseUserObjPoolIndex(index);
 
 	return ERROR_CODE::NONE;
