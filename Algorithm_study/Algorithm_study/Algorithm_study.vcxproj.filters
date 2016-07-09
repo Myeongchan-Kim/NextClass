@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Numb3rs_dunibal.cpp">
+    <ClCompile Include="high_building.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
