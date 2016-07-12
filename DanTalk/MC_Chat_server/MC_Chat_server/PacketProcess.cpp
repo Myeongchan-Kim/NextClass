@@ -31,10 +31,11 @@ void PacketProcess::Init(TcpNet* pNetwork, UserManager* pUserMgr, LobbyManager* 
 	PacketFuncArray[(int)PACKET_ID::LOBBY_ENTER_USER_LIST_REQ] = &PacketProcess::LobbyUserList;
 	PacketFuncArray[(int)PACKET_ID::LOBBY_LEAVE_REQ] = &PacketProcess::LobbyLeave;
 	PacketFuncArray[(int)PACKET_ID::ROOM_ENTER_REQ] = &PacketProcess::RoomEnter;
-	//PacketFuncArray[(int)PACKET_ID::ROOM_LEAVE_REQ] = &PacketProcess::RoomLeave;
-	//PacketFuncArray[(int)PACKET_ID::ROOM_CHAT_REQ] = &PacketProcess::RoomChat;
+	PacketFuncArray[(int)PACKET_ID::ROOM_ENTER_USER_LIST_REQ] = &PacketProcess::RoomUserList;
+	PacketFuncArray[(int)PACKET_ID::ROOM_LEAVE_REQ] = &PacketProcess::RoomLeave;
+	PacketFuncArray[(int)PACKET_ID::ROOM_CHAT_REQ] = &PacketProcess::RoomChat;
 	PacketFuncArray[(int)PACKET_ID::LOBBY_CHAT_REQ] = &PacketProcess::LobbyChat;
-	PacketFuncArray[(int)PACKET_ID::LOBBY_WHISPER_REQ] = &PacketProcess::LobbyChat;
+	PacketFuncArray[(int)PACKET_ID::LOBBY_WHISPER_REQ] = &PacketProcess::LobbyWhisper;
 }
 
 void PacketProcess::Process(PacketInfo packetInfo)
@@ -390,30 +391,198 @@ CHECK_ERR:
 
 ERROR_CODE PacketProcess::RoomEnter(PacketInfo packetInfo)
 {
-//	CHECK_START
-//	// 현재 로비에 있는지 조사한다.
-//	// 룸에 들어간다
-//	// 룸에 있는 사람들에게 룸에 사람이 왔다고 알려준다. 
-//	// 기존 로비에 있는 사람에게 로비에서 사람이 나갔다고 알려준다. 
-//	Packet::PktRoomEnterRes resPkt;
-//	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);
-//	auto errorCode = std::get<0>(pUserRet);
-//
-//	if (errorCode != ERROR_CODE::NONE) {
-//		CHECK_ERROR(errorCode);
-//	}
-//
-//	/* TODO :: ROOM ENTER*/
-//
-//CHECK_ERR:
-//
+	CHECK_START
+	// 현재 로비에 있는지 조사한다.
+	// 룸에 들어간다
+	// 룸에 있는 사람들에게 룸에 사람이 왔다고 알려준다. 
+	// 기존 로비에 있는 사람에게 로비에서 사람이 나갔다고 알려준다. 
+	Packet::PktRoomEnterRes resPkt;
+	Packet::PktRoomEnterReq* reqPkt = (Packet::PktRoomEnterReq*)packetInfo.pRefData;
+
+	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);
+	auto errorCode = std::get<0>(pUserRet);
+	auto pUser = std::get<1>(pUserRet);
+
+	if (errorCode != ERROR_CODE::NONE) {
+		CHECK_ERROR(errorCode);
+	}
+	
+	if (pUser->IsCurDomainLobby() == false)
+	{
+		CHECK_ERROR(ERROR_CODE::ROOM_ENTER_INVALID_DOMAIN);
+	}
+
+	auto pLobby = m_pRefLobbyMgr->GetLobby(pUser->GetLobbyIndex());
+	if (pLobby == nullptr) 
+	{
+		CHECK_ERROR(ERROR_CODE::ROOM_ENTER_INVALID_LOBBY_INDEX);
+	}
+
+	Room* pRoom = nullptr;
+	if (reqPkt->IsCreate == true)
+	{
+		for (int i = 0; i < pLobby->MaxRoomCount(); i++)
+		{
+			auto tmpRoom = pLobby->GetRoom(i);
+			if (tmpRoom->IsUsed() == false)
+			{
+				pRoom = tmpRoom;
+				break;
+			}
+		}
+		if (pRoom == nullptr)
+		{
+			CHECK_ERROR(ERROR_CODE::ROOM_ENTER_CREATE_FAIL);
+		}
+		pRoom->CreateRoom(reqPkt->RoomTitle);
+	}
+	else
+	{
+		pRoom = pLobby->GetRoom(reqPkt->RoomIndex);
+		if (pRoom == nullptr)
+		{
+			CHECK_ERROR(ERROR_CODE::ROOM_ENTER_INVALID_ROOM_INDEX);
+		}
+	}
+
+	if (pRoom->IsUsed() == false)
+	{
+		CHECK_ERROR(ERROR_CODE::ROOM_ENTER_NOT_CREATED);
+	}
+
+
+	//방에 새로운 유저를 집어 넣음
+	pLobby->LeaveUser(pUser->GetIndex());
+	pUser->EnterRoom(pLobby->GetIndex(), pRoom->GetIndex());
+
+	//유저가 로비를 떠났다고 알림.
+	pLobby->NotifyLobbyLeaveUserInfo(pUser);
+
+	//방에 새로운 유저 입장함을 알림.
+	pRoom->NotifyEnterUserInfo(pUser->GetIndex(), pUser->GetID().c_str());
+
+	//로비에게 방 정보 변경을 알림.
+	pLobby->NotifyChangedRoomInfo(pRoom->GetIndex());
+	
+	resPkt.RoomInfo.RoomIndex = pRoom->GetIndex();
+	resPkt.RoomInfo.RoomUserCount = pRoom->GetUserCount();
+	memcpy(resPkt.RoomInfo.RoomTitle, pRoom->GetTitle(), sizeof(wchar_t)*(Packet::MAX_ROOM_TITLE_SIZE + 1));
+
+	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::ROOM_ENTER_RES, sizeof(Packet::PktRoomEnterRes), (char*)&resPkt);
+
 	return ERROR_CODE::NONE;
+
+CHECK_ERR:
+	resPkt.SetError(__result);
+	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::ROOM_ENTER_RES, sizeof(Packet::PktRoomEnterRes), (char*)&resPkt);
+	return (ERROR_CODE)__result;
+}
+
+ERROR_CODE PacketProcess::RoomUserList(PacketInfo packetInfo)
+{
+	CHECK_START;
+	Packet::PktEnterRoomUserInfoRes resPkt;
+	
+		// 현재 룸에 있는지 조사한다.
+		// 유저 리스트를 보내준다.
+
+	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);
+	auto errorCode = std::get<0>(pUserRet);
+
+	if (errorCode != ERROR_CODE::NONE) {
+		CHECK_ERROR(errorCode);
+	}
+
+	auto pUser = std::get<1>(pUserRet);
+
+	if (pUser->IsCurDomainLobby() == false) {
+		CHECK_ERROR(ERROR_CODE::ROOM_USER_LIST_INVALID_DOMAIN);
+	}
+
+	auto pLobby = m_pRefLobbyMgr->GetLobby(pUser->GetLobbyIndex());
+	if (pLobby == nullptr) {
+		CHECK_ERROR(ERROR_CODE::ROOM_USER_LIST_INVALID_LOBBY_INDEX);
+	}
+
+	auto pRoom = pLobby->GetRoom(pUser->GetRoomIndex());
+	
+	resPkt.UserCount = pRoom->GetUserCount();
+	resPkt.RoomIndex = pRoom->GetIndex();
+	for (int i = 0; i < resPkt.UserCount; i++)
+	{
+		strcpy(resPkt.UserInfo[i].UserID, pRoom->GetUserID(i).c_str());
+	}
+	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::ROOM_ENTER_USER_LIST_RES, sizeof(resPkt), (char*)&resPkt);
+
+	return ERROR_CODE::NONE;
+CHECK_ERR:
+	resPkt.SetError(__result);
+	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::ROOM_ENTER_USER_LIST_RES, sizeof(resPkt), (char*)&resPkt);
+	return (ERROR_CODE)__result;
+}
+
+ERROR_CODE PacketProcess::RoomLeave(PacketInfo packetInfo)
+{
+	CHECK_START;
+		// 현재 로비에 있는지 조사한다.
+		// 로비에서 나간다
+		// 기존 로비에 있는 사람에게 나가는 사람이 있다고 알려준다.
+	Packet::PktRoomLeaveRes resPkt;
+	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);
+	auto errorCode = std::get<0>(pUserRet);
+
+	if (errorCode != ERROR_CODE::NONE) {
+		CHECK_ERROR(errorCode);
+	}
+
+	auto pUser = std::get<1>(pUserRet);
+
+	if (pUser->IsCurDomainRoom() == false) {
+		CHECK_ERROR(ERROR_CODE::ROOM_LEAVE_INVALID_DOMAIN);
+	}
+
+	auto pLobby = m_pRefLobbyMgr->GetLobby(pUser->GetLobbyIndex());
+	if (pLobby == nullptr) {
+		CHECK_ERROR(ERROR_CODE::ROOM_LEAVE_INVALID_LOBBY_INDEX);
+	}
+
+	auto pRoom = pLobby->GetRoom(pUser->GetRoomIndex());
+	pUser->LeaveRoom();
+	pRoom->LeaveUser(pUser->GetIndex());
+	pRoom->NotifyLeaveUserInfo(std::string(pUser->GetID()).c_str());
+
+	//auto ret = m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::ROOM_LEAVE_RES, sizeof(resPkt), (char*)&resPkt);
+	
+	Packet::PktLobbyEnterRes resPkt2;
+	auto enterRet = pLobby->EnterUser(pUser);
+	pUser->EnterLobby(pLobby->GetIndex());
+	if (enterRet != ERROR_CODE::NONE)
+	{
+		CHECK_ERROR(enterRet); // 아마도 꽉차서?
+	}
+	pLobby->NotifyLobbyEnterUserInfo(pUser);
+	resPkt2.MaxUserCount = pLobby->MaxRoomCount();
+	resPkt2.MaxRoomCount = pLobby->MaxRoomCount();
+	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::LOBBY_ENTER_RES, sizeof(resPkt2), (char*)&resPkt2);
+
+	return ERROR_CODE::NONE;
+
+CHECK_ERR:
+	resPkt.SetError(__result);
+	m_pRefNetwork->SendData(packetInfo.SessionIndex, (short)PACKET_ID::ROOM_LEAVE_RES, sizeof(Packet::PktRoomLeaveRes), (char*)&resPkt);
+	return (ERROR_CODE)__result;
+}
+
+ERROR_CODE PacketProcess::RoomChat(PacketInfo packetInfo)
+{
+	return ERROR_CODE();
 }
 
 ERROR_CODE PacketProcess::LobbyChat(PacketInfo packetInfo)
 {
-	CHECK_START
-		auto reqPkt = (Packet::PktLobbyChatReq*)packetInfo.pRefData;
+	CHECK_START;
+
+	auto reqPkt = (Packet::PktLobbyChatReq*)packetInfo.pRefData;
 	Packet::PktLobbyChatRes resPkt;
 
 	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);

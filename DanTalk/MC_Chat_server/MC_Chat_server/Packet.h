@@ -15,6 +15,7 @@ public:
 	static const int MAX_ROOM_CHAT_MSG_SIZE = 256;
 	static const int MAX_LOBBY_CHAT_MSG_SIZE = 256;
 	static const int MAX_LOBBY_WHISPER_MSG_SIZE = 256;
+	static const int MAX_USER_COUNT_PER_ROOM = 4;
 
 	struct PktHeader
 	{
@@ -148,6 +149,7 @@ public:
 
 	struct PktRoomEnterRes : PktBase
 	{
+		RoomSmallInfo RoomInfo;
 	};
 
 
@@ -163,6 +165,11 @@ public:
 		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
 	};
 
+	//- 들어온 룸의 유저 정보 요청
+	struct PktEnterRoomUserInfoReq
+	{
+		short RoomIndex;
+	};
 
 	//- 룸 나가기 요청
 	struct PktRoomLeaveReq {};
@@ -177,6 +184,18 @@ public:
 		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
 	};
 
+
+	struct UserSmallInfoRoom
+	{
+		char UserID[MAX_USER_ID_SIZE + 1] = { 0, };
+	};
+
+	struct PktEnterRoomUserInfoRes : PktBase
+	{
+		short RoomIndex;
+		short UserCount;
+		UserSmallInfoRoom UserInfo[MAX_USER_COUNT_PER_ROOM];
+	};
 
 	//- 룸 채팅
 	struct PktRoomChatReq

@@ -49,8 +49,9 @@ private:
 	ERROR_CODE LobbyUserList(PacketInfo packetInfo);
 	ERROR_CODE LobbyLeave(PacketInfo packetInfo);
 	ERROR_CODE RoomEnter(PacketInfo packetInfo);
-	//ERROR_CODE RoomLeave(PacketInfo packetInfo);
-	//ERROR_CODE RoomChat(PacketInfo packetInfo);
+	ERROR_CODE RoomUserList(PacketInfo packetInfo);
+	ERROR_CODE RoomLeave(PacketInfo packetInfo);
+	ERROR_CODE RoomChat(PacketInfo packetInfo);
 	ERROR_CODE LobbyChat(PacketInfo packetInfo);
 	ERROR_CODE LobbyWhisper(PacketInfo packetInfo);
 

@@ -73,7 +73,7 @@ protected:
 	short m_MaxUserCount = 0;
 	std::vector<LobbyUser> m_UserList;
 	std::unordered_map<int, User*> m_UserIndexDic;
-	std::unordered_map<const char*, User*> m_UserIDDic;
+	std::unordered_map<std::string, User*> m_UserIDDic;
 
 	std::vector<Room> m_RoomList;
 };

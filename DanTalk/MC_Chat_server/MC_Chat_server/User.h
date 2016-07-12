@@ -46,6 +46,12 @@ public:
 		m_CurDomainState = DOMAIN_STATE::ROOM;
 	}
 
+	void LeaveRoom()
+	{
+		m_RoomIndex = -1;
+		m_CurDomainState = DOMAIN_STATE::LOBBY;
+	}
+
 protected:
 	short m_Index = -1;
 	int m_SessionIndex = -1;

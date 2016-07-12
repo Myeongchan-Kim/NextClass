@@ -116,3 +116,8 @@ void Room::NotifyChat(const int sessionIndex, const char* pszUserID, const wchar
 
 	SendToAllUser((short)PACKET_ID::ROOM_CHAT_NTF, sizeof(pkt), (char*)&pkt, sessionIndex);
 }
+
+std::string Room::GetUserID(const int i)
+{
+	return m_UserList[i]->GetID();
+}

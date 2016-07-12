@@ -41,6 +41,7 @@ public:
 	void NotifyEnterUserInfo(const int userIndex, const char* pszUserID);
 	void NotifyLeaveUserInfo(const char* pszUserID);
 	void NotifyChat(const int sessionIndex, const char* pszUserID, const wchar_t* pszMsg);
+	std::string GetUserID(const int i);
 
 	void SendToAllUser(const short packetId, const short dataSize, char* pData, const int passUserindex = -1);
 

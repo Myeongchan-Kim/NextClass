@@ -27,8 +27,7 @@ void Lobby::Init(const short lobbyIndex, const short maxLobbyUserCount, const sh
 	{
 		m_RoomList.emplace_back(Room());
 		m_RoomList[i].Init((short)i, maxRoomUserCount);
-		WCHAR roomName[] = L"MyRoom";
-		m_RoomList[i].CreateRoom(roomName);
+		m_RoomList[i].Clear();
 	}
 }
 
@@ -61,7 +60,7 @@ ERROR_CODE Lobby::EnterUser(User* pUser)
 	pUser->EnterLobby(m_LobbyIndex);
 
 	m_UserIndexDic.insert({ pUser->GetIndex(), pUser });
-	m_UserIDDic.insert({ pUser->GetID().c_str(), pUser });
+	m_UserIDDic.insert({ pUser->GetID(), pUser });
 
 	return ERROR_CODE::NONE;
 }
@@ -79,7 +78,7 @@ ERROR_CODE Lobby::LeaveUser(const int userIndex)
 	pUser->LeaveLobby();
 
 	m_UserIndexDic.erase(pUser->GetIndex());
-	m_UserIDDic.erase(pUser->GetID().c_str());
+	m_UserIDDic.erase(pUser->GetID());
 
 	return ERROR_CODE::NONE;
 }
