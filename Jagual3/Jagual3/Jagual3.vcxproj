@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="KnapSack.cpp" />
     <ClCompile Include="LongestCommonStr.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="CutRod.cpp" />
