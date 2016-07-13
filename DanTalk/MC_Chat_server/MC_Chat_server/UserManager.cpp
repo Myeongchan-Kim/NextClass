@@ -118,7 +118,7 @@ User* UserManager::FindUser(const int sessionIndex)
 	return (User*)findIter->second;
 }
 
-User* UserManager::FindUser(const char* pszID)
+User* UserManager::FindUser(std::string pszID)
 {
 	auto findIter = m_UserIDDic.find(pszID);
 

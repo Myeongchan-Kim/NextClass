@@ -618,8 +618,8 @@ CHECK_ERR:
 
 ERROR_CODE PacketProcess::LobbyWhisper(PacketInfo packetInfo)
 {
-	CHECK_START
-		auto reqPkt = (Packet::PktLobbyWhisperReq*)packetInfo.pRefData;
+	CHECK_START;
+	auto reqPkt = (Packet::PktLobbyWhisperReq*)packetInfo.pRefData;
 	Packet::PktLobbyWhisperRes resPkt;
 
 	auto pUserRet = m_pRefUserMgr->GetUser(packetInfo.SessionIndex);

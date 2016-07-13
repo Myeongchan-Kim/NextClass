@@ -27,7 +27,7 @@ private:
 	void ReleaseUserObjPoolIndex(const int index);
 
 	User* FindUser(const int sessionIndex);
-	User* FindUser(const char* pszID);
+	User* FindUser(std::string pszID);
 
 private:
 	std::vector<User> m_UserObjPool;
