@@ -45,6 +45,12 @@
     <ClCompile Include="KnapSack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fractionalKnapSack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MaxActivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatrixMultiple.h">

@@ -142,9 +142,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fractionalKnapSack.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="KnapSack.cpp" />
     <ClCompile Include="LongestCommonStr.cpp" />
+    <ClCompile Include="MaxActivity.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="CutRod.cpp" />
     <ClCompile Include="fibonacci.cpp" />
