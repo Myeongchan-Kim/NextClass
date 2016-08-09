@@ -15,14 +15,15 @@ namespace WebAPI_SelfHosting
         {
             var config = new HttpConfiguration();
 
+            //커스텀 매핑 룰
             config.MapHttpAttributeRoutes();
+            //appBuilder.UseWebApi(config);
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-                );
-
+            // 기본 라우팅 매핑 룰
+            //config.Routes.MapHttpRoute(
+            //     name: "DefaultApi",
+            //     routeTemplate: "api/{controller}/{id}",
+            //     defaults: new { id = RouteParameter.Optional });
             appBuilder.UseWebApi(config);
         }
     }

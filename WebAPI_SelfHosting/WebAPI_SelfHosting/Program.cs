@@ -14,16 +14,11 @@ namespace WebAPI_SelfHosting
         static void Main(string[] args)
         {
             string baseAddress = "http://localhost:19000/";
+            //string baseAddress = "http://*:19000/";
 
             using (WebApp.Start<Startup>(url: baseAddress))
             {
-                var client = new HttpClient();
-
-                var res = client.GetAsync(baseAddress + "api/values").Result;
-
-                Console.WriteLine(res);
-                Console.WriteLine(res.Content.ReadAsStringAsync().Result);
-
+                Console.WriteLine("Web API 실행 중 " + baseAddress);   
                 Console.ReadLine();
             }
 
