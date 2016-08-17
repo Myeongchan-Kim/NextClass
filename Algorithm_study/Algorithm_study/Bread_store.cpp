@@ -32,16 +32,22 @@ bool findPath(int curRow, int curCol, int* path)
 		path[curCol] = curRow;
 		return true;
 	}
-	else if (findPath(curRow, curCol + 1, path))
+	map[curRow - 1][curCol + 1] = 'x';
+
+	if (findPath(curRow, curCol + 1, path))
 	{
 		path[curCol] = curRow;
 		return true;
 	}
-	else if (findPath(curRow + 1, curCol + 1, path))
+	map[curRow][curCol + 1] = 'x';
+	
+	if (findPath(curRow + 1, curCol + 1, path))
 	{
 		path[curCol] = curRow;
 		return true;
 	}
+	map[curRow + 1][curCol + 1] = 'x';
+	
 	return false;
 }
 
