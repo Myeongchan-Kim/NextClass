@@ -7,8 +7,9 @@
 #include <algorithm>
 
 #define MAX_N 100
-#define R (8.00000000000)
+#define R (8.0)
 #define INF 987654321
+#define PI 3.1415926535897931
 
 struct Circle {
 	double x;
@@ -23,7 +24,7 @@ struct Circle {
 
 std::ostream& operator<<(std::ostream& os, Circle& c)
 {
-	os << "[Circle] x:" << c.x << " y:" << c.y << " r:" << c.r << " sRad:" << c.sRad << " eRad:" << c.eRad;
+	os << "[Circle] x:" << c.x << " y:" << c.y << " r:" << c.r << " sRad:" << c.sRad << " eRad:" << c.eRad << "\tx2y2 =" << c.x*c.x + c.y*c.y;
 	return os;
 }
 
@@ -40,10 +41,11 @@ int findMinCover(Circle* startCircle)
 
 	for (auto& curCircle : cList)
 	{
+		if (curCircle == startCircle) continue;
 		if (curCircle->sRad > endCover)
 		{
 			// 시작점이 cover 범위를 벗어난 경우
-			//제일 높은 값으로 갱신하고 1 증가시킴.
+			// 지금까지 endcover중에 제일 높은 값으로 갱신하고 1 증가시킴.
 			endCover = maxCover; 
 			result++;
 			//std::cout << "renew endCover :" << endCover << std::endl;
@@ -53,17 +55,46 @@ int findMinCover(Circle* startCircle)
 		{
 			maxCover = curCircle->eRad;
 			//std::cout << "touch max : " << maxCover << std::endl;
-		}
-		if (maxCover >= startCover + 2 * M_PI)
-		{
-			result++;
-			endCover = maxCover;
-			return result;//시작점보다 높아졌으면 1 증가시키고 바로 종료.
+
+			if (maxCover >= startCover + 2 * PI)
+			{
+				endCover = maxCover;
+				result++;
+				break; // 갱신한 endcover가 한바퀴 다 돌았으면 종료.
+			}
 		}
 	}
 
-	return INF; //한바퀴를 못돌았으면 INF 리턴
+	if (endCover >= startCover + 2 * PI)
+		return result;//시작점보다 높아졌으면 결과 리턴.
+	else 
+		return INF; //한바퀴를 못돌았으면 INF 리턴
 }
+
+
+void initCircleInfo(Circle* circle)
+{
+	double theta = acos(1 - circle->r * circle->r / R / R / 2.0);
+	double rDist = sqrt(circle->x * circle->x + (R - circle->y)*(R - circle->y));
+	double cRad = acos(1 - rDist * rDist / R / R / 2.0);
+	cRad = (circle->x < 0) ? (2 * PI - cRad) : (cRad);
+	circle->sRad = cRad - theta;
+	circle->eRad = cRad + theta;
+	if (circle->sRad < 2 * PI && circle->eRad > 2 * PI)
+	{
+		circle->sRad -= 2 * PI;
+		circle->eRad -= 2 * PI;
+	}
+	if (circle->r >= 16.000000000)
+	{
+		circle->sRad = 0.0;
+		circle->eRad = PI * 2;
+	}
+
+	//std::cout << *circle << std::endl;
+	return;
+}
+
 
 void problem_solve()
 {
@@ -74,23 +105,8 @@ void problem_solve()
 	for (int i = 0; i < n; i++)
 	{
 		scanf("%lf %lf %lf", &cPool[i].y, &cPool[i].x, &cPool[i].r);
-		double theta = acos(1 - cPool[i].r * cPool[i].r / R / R / 2.0);
-		double rDist = sqrt(cPool[i].x * cPool[i].x + (R - cPool[i].y)*(R - cPool[i].y));
-		double cRad = acos(1 - rDist * rDist / R / R / 2.0); 
-		cRad = (cPool[i].x < 0) ? (2 * M_PI - cRad) : (cRad);
-		cPool[i].sRad = cRad - theta;
-		cPool[i].eRad = cRad + theta;
-		if (cPool[i].sRad < 2 * M_PI && cPool[i].eRad > 2 * M_PI)
-		{
-			cPool[i].sRad -= 2 * M_PI;
-			cPool[i].eRad -= 2 * M_PI;
-		}
-		if (cPool[i].r > 16.000)
-		{
-			cPool[i].sRad = -0.1;
-			cPool[i].eRad = M_PI * 2 + 0.1;
-		}
-		//std::cout << cPool[i] << std::endl;
+		initCircleInfo(&cPool[i]);
+		
 		cList.push_back(&cPool[i]);
 	}
 	
@@ -104,7 +120,7 @@ void problem_solve()
 	for (auto& pCir : cList)
 	{
 		//0.0 위치를 지나는 모든 원들을 기준으로 계산해보기
-		if ( pCir->sRad < 0.0 && pCir->eRad > 0.0)
+		if ( pCir->sRad <= 0.0 && pCir->eRad >= 0.0)
 		{
 			int result = findMinCover(pCir);
 			if (result < minResult) minResult = result;
