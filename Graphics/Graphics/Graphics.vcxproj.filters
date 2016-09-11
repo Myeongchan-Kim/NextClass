@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="opengl_test.cpp">
+    <ClCompile Include="0905_sun_earth_moon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
