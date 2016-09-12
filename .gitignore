@@ -200,3 +200,4 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 Algorithm_study/Algorithm_study.VC.db
+Graphics/Graphics/.vscode/.BROWSE.VC.DB-shm
