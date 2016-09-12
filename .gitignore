@@ -201,3 +201,4 @@ FakesAssemblies/
 *.opt
 Algorithm_study/Algorithm_study.VC.db
 Graphics/Graphics/.vscode/.BROWSE.VC.DB-shm
+Graphics/Graphics/.vscode/.BROWSE.VC.DB-wal
