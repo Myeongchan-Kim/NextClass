@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="0905_sun_earth_moon.cpp">
+    <ClCompile Include="0829_corn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
