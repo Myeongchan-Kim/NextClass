@@ -19,7 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="0912_bouncing_rect.cpp" />
+    <ClCompile Include="practice5.cpp" />
+    <ClCompile Include="Practice5_main.cpp" />
+    <ClCompile Include="SkySphere.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="practice5.h" />
+    <ClInclude Include="SkySphere.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6806B16A-DBAF-4CA8-8771-4AD95486D510}</ProjectGuid>
