@@ -115,8 +115,8 @@ bool CollisionProceed(MyRect& rv, MyRect& lv)
 			lv.yVelocity -= yForce / lv.size;
 		}
 		
-		rv.Move();
-		lv.Move();
+		rv.Move(rv.xVelocity/2, rv.yVelocity/2);
+		lv.Move(lv.xVelocity/2, lv.yVelocity/2);
 
 		//단순 충돌
 		/*float xCollisionDepth ;

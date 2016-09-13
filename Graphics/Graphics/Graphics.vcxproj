@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="0912_bouncing_rect.cpp" />
+    <ClCompile Include="0912_interpolation.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6806B16A-DBAF-4CA8-8771-4AD95486D510}</ProjectGuid>
