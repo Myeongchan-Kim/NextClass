@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="0912_interpolation.cpp">
+    <ClCompile Include="0912_bouncing_rect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
