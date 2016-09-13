@@ -92,6 +92,7 @@ void SetupRC(void)
 	glFrontFace(GL_CCW);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	
+	//setup vertices
 	for (int i = 0; i < 8; i++)
 	{
 		vList[i].x = -100 + (i % 2) * 200;
