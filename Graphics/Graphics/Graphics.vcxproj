@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="practice5.cpp" />
     <ClCompile Include="Practice5_main.cpp" />
     <ClCompile Include="SkySphere.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="lodepng.h" />
     <ClInclude Include="practice5.h" />
     <ClInclude Include="SkySphere.h" />
   </ItemGroup>

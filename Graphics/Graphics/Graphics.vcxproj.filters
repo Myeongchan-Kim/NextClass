@@ -24,13 +24,19 @@
     <ClCompile Include="SkySphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lodepng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="practice5.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="SkySphere.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="practice5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lodepng.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

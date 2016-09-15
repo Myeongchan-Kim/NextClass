@@ -22,6 +22,12 @@ public:
 	SkySphere(const char* fileName);
 	virtual ~SkySphere();
 
+	GLuint GetTexture();
+
+protected:
+	void LoadTexture(const char* fileName);
+
 protected:
 	std::vector<TexVertex*> vList;
+	GLuint m_texture;
 };
