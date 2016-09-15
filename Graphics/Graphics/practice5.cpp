@@ -33,16 +33,6 @@ void Practice5::SetupRC(void)
 
 void Practice5::ChangeSize(GLsizei w, GLsizei h)
 {
-	////ortho
-	//glViewport(0, 0, w, h);
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-
-	//glOrtho(-w, w, -h, h, 1.0f, -1.0f);
-	//
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
-
 	//perspective
 	GLfloat fAspect;
 	glViewport(0, 0, w, h);
