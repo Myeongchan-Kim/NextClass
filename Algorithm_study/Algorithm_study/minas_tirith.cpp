@@ -2,24 +2,19 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <deque>
 #include <cmath>
 #include <algorithm>
 
 #define MAX_N 100
 #define R (8.0)
 #define INF 987654321
-#define PI 3.1415926535897931
 
 struct Circle {
-	double x;
-	double y;
-	double r;
-
-	double sRad;
-	double eRad;
-
+	double x, y, r;
+	double sRad, eRad;
 	friend std::ostream& operator<<(std::ostream& os, Circle& c);
+
 };
 
 std::ostream& operator<<(std::ostream& os, Circle& c)
@@ -28,116 +23,139 @@ std::ostream& operator<<(std::ostream& os, Circle& c)
 	return os;
 }
 
-Circle cPool[MAX_N + 1];
-std::vector<Circle*> cList;
-
-int findMinCover(Circle* startCircle)
+Circle* MakeCircle(double x, double y, double r)
 {
-	int result = 1;
+	double centerAngle = atan2(y, x);
+	double cos0 = ((2 * R * R) - r * r) / (2 * R * R);
+	double theta = acos(cos0); // r^2 = R^2 + R^2 - 2rRcos0
+	if (r > R * 2) theta = M_PI;
 
-	double startCover = startCircle->sRad;
-	double endCover = startCircle->eRad;
-	double maxCover = startCircle->eRad;
+	Circle* newCircle = new Circle();
+	newCircle->x = x;
+	newCircle->y = y;
+	newCircle->r = r;
+	newCircle->sRad = centerAngle - theta;
+	newCircle->eRad = centerAngle + theta;
+	if (newCircle->eRad < 0) {
+		newCircle->sRad += 2 * M_PI;
+		newCircle->eRad += 2 * M_PI;
+	}
 
-	for (auto& curCircle : cList)
+	//std::cout << *newCircle << std::endl;
+	return newCircle;
+}
+
+int GetMinValWithStartCicle(std::deque<Circle*>& cList)
+{
+	int count = 1;
+	double startPos = cList[0]->sRad;
+	double endPos = cList[0]->eRad;
+	double maxEnd = -1.0;
+	
+	for (auto& c : cList)
 	{
-		if (curCircle == startCircle) continue;
-		if (curCircle->sRad > endCover)
+		//이전범위와 안겹치는 원이 나타나면.
+		//겹치는 원들중의 최대 값으로 끝범위 설정하고 다시반복.
+		if (c->sRad > endPos && maxEnd > c->sRad)
 		{
-			// 시작점이 cover 범위를 벗어난 경우
-			// 지금까지 endcover중에 제일 높은 값으로 갱신하고 1 증가시킴.
-			endCover = maxCover; 
-			result++;
-			//std::cout << "renew endCover :" << endCover << std::endl;
+			count++;
+			endPos = maxEnd;
+			maxEnd = -1.0;
 		}
-		//maxCover값은 계속 갱신.
-		if (maxCover < curCircle->eRad)
+		//끝범위를 최대값으로 설정했는데도, 안 닿는 경우
+		else if (c->sRad > endPos && maxEnd < c->sRad)
 		{
-			maxCover = curCircle->eRad;
-			//std::cout << "touch max : " << maxCover << std::endl;
+			return INF; //실패
+		}
 
-			if (maxCover >= startCover + 2 * PI)
+		//현재 범위에 겹치면서, max보다 클 경우.
+		if (c->sRad < endPos && c->eRad > endPos && c->eRad > maxEnd)
+		{
+			maxEnd = c->eRad;
+
+			if (maxEnd > startPos + 2 * M_PI)
 			{
-				endCover = maxCover;
-				result++;
-				break; // 갱신한 endcover가 한바퀴 다 돌았으면 종료.
+				count++;
+				endPos = maxEnd;
+				break;
+			}
+			else 
+			{
+				continue;
 			}
 		}
 	}
 
-	if (endCover >= startCover + 2 * PI)
-		return result;//시작점보다 높아졌으면 결과 리턴.
-	else 
-		return INF; //한바퀴를 못돌았으면 INF 리턴
+	if (endPos < startPos + 2 * M_PI)
+		return INF;
+	else
+		return count;
 }
 
-
-void initCircleInfo(Circle* circle)
+int GetMinSolution(std::deque<Circle*>& cList)
 {
-	double theta = acos(1 - circle->r * circle->r / R / R / 2.0);
-	double rDist = sqrt(circle->x * circle->x + (R - circle->y)*(R - circle->y));
-	double cRad = acos(1 - rDist * rDist / R / R / 2.0);
-	cRad = (circle->x < 0) ? (2 * PI - cRad) : (cRad);
-	circle->sRad = cRad - theta;
-	circle->eRad = cRad + theta;
-	if (circle->sRad < 2 * PI && circle->eRad > 2 * PI)
+	int minResult = INF;
+	while(true)
 	{
-		circle->sRad -= 2 * PI;
-		circle->eRad -= 2 * PI;
-	}
-	if (circle->r >= 16.000000000)
-	{
-		circle->sRad = 0.0;
-		circle->eRad = PI * 2;
+		if (cList[0]->sRad >= 0)
+			break;
+
+		int tmpRet = GetMinValWithStartCicle(cList);
+		if (minResult > tmpRet)
+			minResult = tmpRet;
+
+		Circle* startCircle = cList[0];
+		startCircle->sRad += 2 * M_PI;
+		startCircle->eRad += 2 * M_PI;
+		cList.pop_front();
+		cList.push_back(startCircle);
 	}
 
-	//std::cout << *circle << std::endl;
-	return;
+	return minResult;
 }
-
 
 void problem_solve()
 {
 	int n;
 	scanf("%d", &n);
-	cList.clear();
-	cList.reserve(n);
+
+	std::deque<Circle*> cList;
+	
+	//생성
 	for (int i = 0; i < n; i++)
 	{
-		scanf("%lf %lf %lf", &cPool[i].y, &cPool[i].x, &cPool[i].r);
-		initCircleInfo(&cPool[i]);
-		
-		cList.push_back(&cPool[i]);
+		double x, y, r;
+		scanf("%lf %lf %lf", &y, &x, &r);
+		cList.push_back(MakeCircle(x, y, r));
 	}
-	
+
 	//시작점에 관해서 정렬
 	auto compare = [](Circle* lv, Circle* rv) {
 		return lv->sRad < rv->sRad;
 	};
 	std::sort(cList.begin(), cList.end(), compare);
 
-	int minResult = INF;
-	for (auto& pCir : cList)
+	int result = GetMinSolution(cList);
+
+	if (result == INF) printf("IMPOSSIBLE\n");
+	else printf("%d\n", result);
+
+	//삭제
+	for (auto& circle : cList)
 	{
-		//0.0 위치를 지나는 모든 원들을 기준으로 계산해보기
-		if ( pCir->sRad <= 0.0 && pCir->eRad >= 0.0)
-		{
-			int result = findMinCover(pCir);
-			if (result < minResult) minResult = result;
-			//std::cout << result << " " << minResult << std::endl;
-		}
+		delete circle;
+		circle = nullptr;
 	}
-	if (minResult == INF) std::cout << "IMPOSSIBLE" << std::endl;
-	else printf("%d\n", minResult);
-	return;
+	cList.clear();
 }
 
 int main() {
-	int CASE;
-	scanf("%d", &CASE);
-	for (int i = 0; i < CASE; i++)
+	int c;
+
+	std::cin >> c;
+
+	for (int i = 0; i < c; i++)
 	{
 		problem_solve();
 	}
-	return 0;
 }
