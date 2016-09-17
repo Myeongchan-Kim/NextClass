@@ -13,12 +13,20 @@ struct CityInfo {
 	std::vector<std::pair<int, double>> dist;
 };
 
+struct Edge {
+	int first;
+	int second;
+	double dist;
+};
+std::vector<Edge> eList;
+
 double dist_map[MAX_N][MAX_N];
 double minDistFromCity[MAX_N];
 double min_dist = INF;
 CityInfo* cityInfoList[MAX_N] = {nullptr,};
 
-double MyHuristic1(std::vector<bool>& visited) {
+double MyHuristic1(std::vector<bool>& visited) 
+{
 	double result = 0;
 	int N = visited.size();
 
@@ -26,6 +34,63 @@ double MyHuristic1(std::vector<bool>& visited) {
 		if (visited[i] == false)
 			result += minDistFromCity[i];
 
+	return result;
+}
+
+double MstHuristic(int lastVistedId, std::vector<bool>& visited, int remain)
+{
+	eList.clear();
+
+	int N = visited.size();
+	
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = i + 1; j < N; j++)
+		{
+			if ((visited[i] == false || i == lastVistedId) &&( visited[j] == false || j == lastVistedId))
+			{
+				eList.push_back({ i,j, dist_map[i][j] });
+			}
+		}
+	}
+
+	std::sort(eList.begin(), eList.end(), [](Edge& rv, Edge& lv) {return rv.dist < lv.dist; });
+
+	int rootId[MAX_N] = {};
+	int count = 0;
+	for (auto& id : rootId) id = -1; // -1 means not connected
+ 	double result = 0.0;
+	for (auto& e : eList)
+	{
+		if (rootId[e.first] == -1 && rootId[e.second] == -1)
+		{
+			count++;
+			result += e.dist;
+			rootId[e.first] = std::min(e.first, e.second);
+			rootId[e.second] = std::min(e.first, e.second);
+		} 
+		else if (rootId[e.first] == -1) 
+		{
+			count++;
+			result += e.dist;
+			rootId[e.first] = e.second;
+		}
+		else if (rootId[e.second] == -1)
+		{
+			count++;
+			result += e.dist;
+			rootId[e.second] = e.first;
+		}
+		else if (rootId[e.first] != rootId[e.second])
+		{
+			count++;
+			result += e.dist;
+			int smaller = std::min(e.first, e.second);
+			int bigger = std::max(e.first, e.second);
+			for (auto& id : rootId)	if (id == bigger) id = smaller;
+		}
+		if (count == remain + 1 - 1) break;
+	}
 	return result;
 }
 
@@ -44,7 +109,9 @@ void CalcMinDist(std::vector<bool>& visited,int lastVistedId, double beforeSum, 
 	if (beforeSum >= min_dist)
 		return;
 	
-	if ((beforeSum + MyHuristic1(visited) >= min_dist))
+	//if ((beforeSum + MyHuristic1(visited) >= min_dist))
+	//	return;
+	if (beforeSum + MstHuristic(lastVistedId, visited, remainCity) >= min_dist)
 		return;
 
 	for (auto& cityInfo : cityInfoList[lastVistedId]->dist)
