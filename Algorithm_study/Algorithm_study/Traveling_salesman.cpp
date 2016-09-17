@@ -2,11 +2,12 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
-#include <stack>
+#include <map>
 #include <limits>
 
 #define INF 987654321
 #define MAX_N 21
+const int CHACH_DEPTH = 5;
 
 struct CityInfo {
 	int cityId;
@@ -18,7 +19,9 @@ struct Edge {
 	int second;
 	double dist;
 };
+
 std::vector<Edge> eList;
+std::map<int, double> cache[MAX_N][CHACH_DEPTH + 1];
 
 double dist_map[MAX_N][MAX_N];
 double minDistFromCity[MAX_N];
@@ -94,9 +97,44 @@ double MstHuristic(int lastVistedId, std::vector<bool>& visited, int remain)
 	return result;
 }
 
-double GetMemoResult(std::vector<bool>& visited)
-{ 
-	return -1;
+int MakeHash(std::vector<bool>& visitied, int lastVisitedId) 
+{
+	int hash = 0;
+	for (int i = 0; i < (int)visitied.size(); i++)
+	{
+		if (visitied[i] == false)
+			hash |= (int)1;
+		hash <<= 1;
+	}
+	hash >>= 1;
+
+	return hash;
+}
+
+double DynamicResult(std::vector<bool>& visited ,int lastVisitedId, double beforeSum, int remainCity)
+{
+	if (remainCity == 0)
+		return 0.0;
+
+	int hash = MakeHash(visited, lastVisitedId);
+	if (cache[lastVisitedId][remainCity][hash] > 0.0)
+		return cache[lastVisitedId][remainCity][hash];
+	
+	double minResult = INF;
+	int N = (int)visited.size();
+	for (int i = 0; i < N; i++)
+	{
+		if (visited[i] == false )
+		{
+			visited[i] = true;
+			double tmpVal = dist_map[lastVisitedId][i] + DynamicResult(visited, i, beforeSum + dist_map[lastVisitedId][i], remainCity - 1);
+			minResult = std::min(minResult, tmpVal);
+			visited[i] = false;
+		}
+	}
+
+	cache[lastVisitedId][remainCity][hash] = minResult;
+	return minResult;
 }
 
 void CalcMinDist(std::vector<bool>& visited,int lastVistedId, double beforeSum, int remainCity)
@@ -108,7 +146,14 @@ void CalcMinDist(std::vector<bool>& visited,int lastVistedId, double beforeSum, 
 	}
 	if (beforeSum >= min_dist)
 		return;
-	
+
+	if (remainCity <= CHACH_DEPTH)
+	{
+		double remainDist = DynamicResult(visited, lastVistedId, beforeSum, remainCity);
+		min_dist = std::min(min_dist, remainDist + beforeSum);
+		return;
+	}
+
 	//if ((beforeSum + MyHuristic1(visited) >= min_dist))
 	//	return;
 	if (beforeSum + MstHuristic(lastVistedId, visited, remainCity) >= min_dist)
@@ -135,6 +180,11 @@ void problem_solve()
 		for (int j = 0; j < N; j++)
 			dist_map[i][j] = INF;
 	min_dist = INF;
+	for (int i = 0; i < N; i++)
+		for (int j = 0; j <= CHACH_DEPTH; j++)
+		{
+			cache[i][j].clear();
+		}
 
 	//input distance
 	for (int i = 0; i < N; i++)
