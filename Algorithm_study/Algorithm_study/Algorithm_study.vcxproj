@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="minas_tirith.cpp" />
+    <ClCompile Include="Traveling_salesman.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5FADBD03-079B-4D13-9DB9-A5C517588DF1}</ProjectGuid>

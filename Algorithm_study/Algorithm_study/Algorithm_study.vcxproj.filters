@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="minas_tirith.cpp">
+    <ClCompile Include="Traveling_salesman.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
