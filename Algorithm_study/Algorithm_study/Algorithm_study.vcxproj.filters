@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ppap.cpp">
+    <ClCompile Include="ITES.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
