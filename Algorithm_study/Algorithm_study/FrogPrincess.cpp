@@ -18,6 +18,7 @@ struct Node
 
 std::vector<Node*> nodelist;
 Node nodePool[100002] = {0,};
+Node NIL;
 
 void problem_input()
 {
@@ -26,10 +27,10 @@ void problem_input()
 	for(int i = 0; i < N ; i++)
 	{
 		std::cin >> nodePool[i].x >> nodePool[i].y;
-		nodePool[i].a = &nodePool[i];
-		nodePool[i].b = &nodePool[i];
-		nodePool[i].c = &nodePool[i];
-		nodePool[i].d = &nodePool[i];
+		nodePool[i].a = &NIL;
+		nodePool[i].b = &NIL;
+		nodePool[i].c = &NIL;
+		nodePool[i].d = &NIL;
 		nodelist.push_back(&nodePool[i]);
 	}
 }
@@ -61,16 +62,7 @@ void problem_solev()
 	Node* oldNode = nullptr;
 	for( auto& curNode : nodelist)
 	{
-		if(oldNode == nullptr)
-		{
-			curNode->b = curNode;
-		}
-		else if(oldNode->x + oldNode->y != curNode->x + curNode->y)
-		{
-			oldNode->c = oldNode;
-			curNode->b = curNode;
-		}
-		else{
+		if(oldNode != nullptr && oldNode->x + oldNode->y == curNode->x + curNode->y){
 			oldNode->c = curNode;
 			curNode->b = oldNode;
 		}
@@ -82,16 +74,7 @@ void problem_solev()
 	oldNode = nullptr;
 	for( auto& curNode : nodelist)
 	{
-		if(oldNode == nullptr)
-		{
-			curNode->a = curNode;
-		}
-		else if(oldNode->x - oldNode->y != curNode->x - curNode->y)
-		{
-			oldNode->d = oldNode;
-			curNode->a = curNode;
-		}
-		else{
+		if(oldNode != nullptr && oldNode->x - oldNode->y == curNode->x - curNode->y){
 			oldNode->d = curNode;
 			curNode->a = oldNode;
 		}
@@ -102,49 +85,60 @@ void problem_solev()
 	Node* oldPos = nullptr;
 	for(std::string::iterator c = move.begin(); c != move.end(); c++)
 	{
-		
-		if(*c == 'A' && curPos != oldPos)
+		if(*c == 'A' && curPos->a != &NIL)
 		{
+			Node* next = curPos->a;
 			oldPos = curPos;
-			curPos = oldPos->a;
 			
-			oldPos->d->a = curPos;
-			curPos->d = oldPos->d;
+			next->d = oldPos->d;
 			
-			oldPos->b->c = oldPos->c;
-			oldPos->c->b = oldPos->b;
-		}else if (*c == 'B' && curPos != oldPos)
+			Node* newC = oldPos->c;
+			Node* newB = oldPos->b;
+			oldPos->b->c = newC;
+			oldPos->c->b = newB;
+			
+			curPos = next;
+		}else if (*c == 'B' && curPos->b != &NIL)
 		{
+			Node* next = curPos->b;
 			oldPos = curPos;
-			curPos = oldPos->b;
 			
-			oldPos->c->b = curPos;
-			curPos->c = oldPos->c;
+			next->c = oldPos->c;
 			
-			oldPos->d->a = oldPos->a;
-			oldPos->a->d = oldPos->d;
-		}else if (*c == 'C' && curPos != oldPos)
-		{
-			oldPos = curPos;
-			curPos = oldPos->c;
+			Node* newA = oldPos->a;
+			Node* newD = oldPos->d;
+			oldPos->d->a = newA;
+			oldPos->a->d = newD;
+			
+			curPos = next;
 
-			oldPos->b->c = curPos;
-			curPos->b = oldPos->b;
-
-			oldPos->d->a = oldPos->a;
-			oldPos->a->d = oldPos->d;
-		}else if (*c == 'D' && curPos != oldPos)
+		}else if (*c == 'C'  && curPos->c != &NIL)
 		{
+			Node* next = curPos->c;
 			oldPos = curPos;
-			curPos = oldPos->d;
 			
-			oldPos->a->d = curPos;
-			curPos->a = oldPos->a;
+			next->b = oldPos->b;
 			
-			oldPos->b->c = oldPos->c;
-			oldPos->c->b = oldPos->b;
-		}else{
-			throw "wrong input";
+			Node* newA = oldPos->a;
+			Node* newD = oldPos->d;
+			oldPos->d->a = newA;
+			oldPos->a->d = newD;
+			
+			curPos = next;
+
+		}else if (*c == 'D'  && curPos->d != &NIL)
+		{
+			Node* next = curPos->d;
+			oldPos = curPos;
+			
+			next->a = oldPos->a;
+			
+			Node* newC = oldPos->c;
+			Node* newB = oldPos->b;
+			oldPos->b->c = newC;
+			oldPos->c->b = newB;
+			
+			curPos = next;
 		}
 			
 	} 
@@ -154,6 +148,14 @@ void problem_solev()
 
 int main ()
 {
+
+	NIL.x = -1;
+	NIL.y = -1;
+	NIL.a = &NIL;
+	NIL.b = &NIL;
+	NIL.c = &NIL;
+	NIL.d = &NIL;
+
 	problem_input();
 	problem_solev();
 	return 0;
