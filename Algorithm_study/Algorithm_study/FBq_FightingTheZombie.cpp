@@ -13,12 +13,12 @@ struct Deal
 	int max;
 };
 
-double cache[21][10001];
+double cache[22][10001];
 
 void clearCahce()
 {
 	//clear cache;	
-	for (int i = 0; i < 21; i++)
+	for (int i = 0; i < 22; i++)
 		for (int j = 0; j < 10001; j++)
 			cache[i][j] = -1.0;
 }
