@@ -13,13 +13,13 @@ struct Deal
 	int max;
 };
 
-double cache[10001][21];
+double cache[21][10001];
 
 void clearCahce()
 {
 	//clear cache;	
-	for (int i = 0; i < 10001; i++)
-		for (int j = 0; j < 21; j++)
+	for (int i = 0; i < 21; i++)
+		for (int j = 0; j < 10001; j++)
 			cache[i][j] = -1.0;
 }
 
@@ -50,7 +50,9 @@ struct Spell
 				return 0.0;
 		}
 		if (cache[curDealIdx][remainHP] >= 0)
+		{
 			return cache[curDealIdx][remainHP];
+		}
 
 		Deal deal = deals[curDealIdx];
 		double result = 0;
@@ -59,7 +61,7 @@ struct Spell
 		{
 			result += calculDeathProb(curDealIdx + 1, remainHP - d);
 		}
-		result /= (deal.max - deal.min + 1); // divide by count;
+		result /= (double)(deal.max - deal.min + 1); // divide by count;
 
 		cache[curDealIdx][remainHP] = result;
 		return result;
@@ -96,7 +98,7 @@ void problem_solve(int case_num)
 		if (maxProb < result)
 			maxProb = result;
 
-		//printf("Max prob :%f\n", maxProb);
+		//printf("This prob:%f\tMax prob :%f\n", result, maxProb);
 	}
 
 	printf("Case #%d: %f\n", case_num, maxProb);
