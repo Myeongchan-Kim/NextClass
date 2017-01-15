@@ -155,7 +155,7 @@ void problem_solve(int case_num)
 			int maxRest = GetMaxRect(restGroup);
 			//printf("Rest:%d\n", maxRest);
 
-			maxResult = std::max(maxResult, std::max(maxCircle, 1) + std::max(maxRest, 1));
+			maxResult = std::max(maxResult, maxCircle + maxRest);
 		}
 	}
 
