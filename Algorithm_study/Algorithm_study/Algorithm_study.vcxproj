@@ -19,7 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FBq_FightingTheZombie.cpp" />
+    <ClCompile Include="bigInt.cpp" />
+    <ClCompile Include="FB1_umbrella.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bigInt.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5FADBD03-079B-4D13-9DB9-A5C517588DF1}</ProjectGuid>
@@ -104,7 +108,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>

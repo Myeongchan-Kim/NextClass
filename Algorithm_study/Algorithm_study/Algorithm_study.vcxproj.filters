@@ -15,8 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FBq_FightingTheZombie.cpp">
+    <ClCompile Include="FB1_umbrella.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="bigInt.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bigInt.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
