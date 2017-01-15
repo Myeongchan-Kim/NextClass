@@ -6,7 +6,6 @@
 #include <string>
 #include <sstream>
 #include <memory>
-#include "bigInt.h"
 
 #define DIV 1000000007
 
@@ -19,18 +18,16 @@ unsigned long long fact[2002] = {0,};
 unsigned long long H(int n, int r)
 {
 	//return combination(n + r - 1, r);
-	//unsigned long long result = 1;
-	BigInt::Rossi result(1);
+	unsigned long long result = 1;
 	int div = 1;
 	for (int i = r + 1; i <= n + r - 1; i++)
 	{
-		result = result * BigInt::Rossi(i);
-		result = result / BigInt::Rossi(div);
-		div++;
+		result *= i;
+		result /= div++;
+		result %= DIV;
 	}
-	result = result % BigInt::Rossi(DIV);
 
-	return result.toUnit();
+	return result;
 }
 
 unsigned long long factorial(int n)
