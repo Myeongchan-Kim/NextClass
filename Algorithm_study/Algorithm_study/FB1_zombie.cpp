@@ -8,202 +8,158 @@
 #include <sstream>
 #include <memory>
 
-struct Rect {
-	int topY;
-	int botY;
-	int leftX;
-	int rightX;
+int N, R;
+std::vector<std::pair<int, int>> pointList;
 
-	int width() {
-		abs(leftX - rightX);
-	}
-	int height() {
-		abs(topY - botY);
-	}
-
-	std::set<int> elements;
-};
-
-bool operator== (const Rect& r1, const Rect& r2)
+void ShowGroup(std::vector<int>& group, std::string str)
 {
-	return (r1.topY == r2.topY &&
-		r1.botY == r2.botY &&
-		r1.leftX == r2.leftX &&
-		r1.rightX == r2.rightX);
-};
-
-bool operator< (const Rect& r1, const Rect& r2)
-{
-	if (r1.topY == r2.topY)
+	printf("Group:%s\n", str.c_str());
+	for (auto id : group)
 	{
-		if (r1.botY == r2.botY)
+		auto p = pointList[id];
+		printf("\tp(%d) x:%d y:%d\n", id, p.first, p.second);
+	}
+}
+
+
+void DivideGroup(
+	std::vector<int>& circleGroup, std::vector<int>& restGroup, 
+	std::pair<int,int>p1, std::pair<int,int>p2)
+{
+	double x1 = (double)p1.first;
+	double x2 = (double)p2.first;
+	double y1 = (double)p1.second;
+	double y2 = (double)p2.second;
+
+	double cx = x1 / 2.0 + x2 / 2.0 ;
+	double cy = y1 / 2.0 + y2 / 2.0;;
+	double r2 = ((x1 - x2) * (x1 - x2) + (y1 - y2)*(y1 - y2)) / 4.0;
+
+	for (int i = 0; i < N; i++)
+	{
+		auto point = pointList[i];
+		double x = (double)point.first;
+		double y = (double)point.second;
+		if ((x - cx) * (x - cx) + (y - cy)*(y - cy) <= r2 + 0.00001)
 		{
-			if (r1.leftX == r1.leftX)
-				return r1.rightX < r2.rightX;
-			else
-				return r1.leftX < r1.leftX;
-		}else{
-			return r1.botY < r2.botY;
+			circleGroup.push_back(i);
+		}
+		else {
+			restGroup.push_back(i);
 		}
 	}
-	else {
-		return r1.topY < r2.topY;
-	}
+}
 
-};
-
-int size, R;
-
-std::vector<std::pair<int,int>> full_points;
-std::vector<std::set<int>> groups; // group of point indicis.
-
-void MakeRectList(std::set<Rect>& rects, std::vector<std::pair<int,int>>&points) {
-	int size = points.size();
-	
-	//make groups by every four full_points.
-	for (int top = 0; top < size; top++)
+int CountPoint(std::vector<int>&group, int topY, int botY, int leftX, int rightX)
+{
+	int count = 0;
+	for (auto& i : group)
 	{
-		for (int bot = 0; bot < size; bot++)
+		auto p = pointList[i];
+		if (p.first <= rightX && p.first >= leftX && p.second <= topY && p.second >= botY)
+			count++;
+	}
+	return count;
+}
+
+int GetMaxRect(std::vector<int>& group)
+{
+	int n = group.size();
+	int maxResult = 1;
+	for (auto& topId : group)
+	{
+		std::pair<int, int>&top = pointList[topId];
+		
+		for (auto& botId : group)
 		{
-			if (top == bot)
-				continue;
-			int height = points[top].second - points[bot].second;
-			if (height < 0 || height > R)
+			if (botId == topId)
 				continue;
 
-			for (int left = 0; left < size; left++)
+			std::pair<int, int>& bot = pointList[botId];
+			int height = abs(top.second - bot.second);
+			if (height > R)
+				continue;
+
+			for (auto& leftId : group)
 			{
-				if (points[left].second > points[top].second ||
-					points[left].second < points[bot].second)
+				std::pair<int, int>& left = pointList[leftId];
+
+				if (left.first > top.first || left.first > bot.first)
 					continue;
-				if (points[left].first > points[top].first ||
-					points[left].first > points[bot].first)
+				if (left.second > top.second || left.second < bot.second)
 					continue;
 
-				for (int right = 0; right < size; right++)
+				for (auto& rightId : group)
 				{
-
-					if (left == right)
+					std::pair<int, int>& right = pointList[rightId];
+					if (right.first < top.first || right.first < bot.first)
 						continue;
-					if (points[right].second > points[top].second ||
-						points[right].second < points[bot].second)
+					if (right.second > top.second || right.second < bot.second)
 						continue;
-					if (points[right].first < points[top].first ||
-						points[right].first < points[bot].first)
-						continue;
-					int width = points[right].first - points[left].first;
-					if (width < 0 || width > R)
+					int width = abs(left.first - right.first);
+					if (width > R)
 						continue;
 
-					std::set<int> newGroup;
-					newGroup.insert(top);
-					newGroup.insert(bot);
-					newGroup.insert(left);
-					newGroup.insert(right);
+					int count = CountPoint(group, top.second, bot.second, left.first, right.first);
+					//printf("\tRect : topY:%d botY:%d leftX:%d rightX:%d count:%d\n", top.second, bot.second, left.first, right.first, count);
 
-					Rect newRect;
-					newRect.topY = points[top].second;
-					newRect.botY = points[bot].second;
-					newRect.leftX = points[left].first;
-					newRect.rightX = points[right].first;
-					newRect.elements = newGroup;
-					rects.insert(newRect);
+					maxResult = std::max(maxResult, count);
 				}
 			}
 		}
 	}
 
-	//insert point for each groups
-	for (auto& rect : rects)
-	{
-		for (int i = 0; i < size; i++)
-		{
-			auto point = full_points[i];
-			if (point.first <= rect.rightX && point.first >= rect.leftX &&
-				point.second <= rect.topY && point.second >= rect.botY)
-			{
-				const_cast<Rect&>(rect).elements.insert(i);
-			}
-		}
-	}
-
-	//make single point rect
-	for (int i = 0; i < size; i++)
-	{
-		auto point = points[i];
-		Rect newSingleRect;
-		newSingleRect.topY = point.second;
-		newSingleRect.botY = point.second;
-		newSingleRect.leftX = point.first;
-		newSingleRect.rightX = point.first;
-		newSingleRect.elements.insert(i);
-		rects.insert(newSingleRect);
-	}
-}
-
-void CheckRects(std::set<Rect>& rects)
-{
-	printf("\n\n\n");
-	//check rect
-	for (auto& rect : rects)
-	{
-		printf("Rect:\ttop:%d bot:%d left:%d right:%d ele:%d\n", rect.topY, rect.botY, rect.leftX, rect.rightX, rect.elements.size());
-	}
-}
-
-Rect MaxRect(std::set<Rect> rect_list)
-{
-	Rect maxRect;
-	int maxNum = 0;
-	for (auto& rect : rect_list)
-	{
-		if (maxNum < rect.elements.size())
-		{
-			maxNum = rect.elements.size();
-			maxRect = rect;
-		}
-		//printf("Rect:\ttop:%d bot:%d left:%d right:%d ele:%d\n", rect.topY, rect.botY, rect.leftX, rect.rightX, rect.elements.size());
-		//printf("\tMaxNum:%d\n", maxNum);
-	}
-	return maxRect;
+	return maxResult;
 }
 
 void problem_solve(int case_num)
 {
-	full_points.clear();
-	groups.clear();
-	std::set<Rect> rects;
-	scanf("%d %d", &size, &R);
+	pointList.clear();
 
-	for (int i = 0; i < size; i++)
+	scanf("%d %d", &N, &R);
+
+	for (int i = 0; i < N; i++)
 	{
 		int X, Y;
 		scanf("%d %d", &X, &Y);
-		full_points.push_back({ X, Y });
+		pointList.push_back({ X, Y });
 	}
-	sort(full_points.begin(), full_points.end(), [=]( std::pair<int,int>&p1, std::pair<int,int>&p2) {
-		return p1.first < p2.first;
-	});
 
-	MakeRectList(rects, full_points);
-	//CheckRects(rects);
-
-	Rect maxRect = MaxRect(rects);
-	std::vector<std::pair<int,int>> rest_points;
-	std::set<Rect> restRects;
-	for (int i =0 ; i< size; i++)
+	int maxResult = 2;
+	for (int i = 0; i < N; i++)
 	{
-		if (maxRect.elements.find(i) == maxRect.elements.end())
-			rest_points.push_back(full_points[i]);
-	}
-	//printf("rest count : %d\n", rest_points.size());
+		auto& p1 = pointList[i];
+		for (int j = 0; j < N; j++)
+		{
+			if (i == j)
+				continue;
 
-	MakeRectList(restRects, rest_points);
-	//CheckRects(restRects);
-	Rect restMaxRect = MaxRect(restRects);
-	int result = maxRect.elements.size() + restMaxRect.elements.size();
-	//printf("maxRect:%d maxRestRect:%d\n", maxRect.elements.size(), restMaxRect.elements.size());
-	printf("Case #%d: %d\n", case_num, result);
+			auto& p2 = pointList[j];
+			std::vector<int> circleGroup;
+			std::vector<int> restGroup;
+
+			unsigned long long r_sqr = 
+				(unsigned long long)(p1.first - p2.first) *(p1.first - p2.first)
+				+ (unsigned long long)(p1.second - p2.second) * (p1.second - p2.second);
+			if (r_sqr > (unsigned long long)R * (unsigned long long)R * 2)
+				continue;
+
+			DivideGroup(circleGroup, restGroup, p1, p2);
+			
+			//ShowGroup(circleGroup, "Circle");
+			//ShowGroup(restGroup, "Rest");
+
+			int maxCircle = GetMaxRect(circleGroup);
+			//printf("Circle:%d\n", maxCircle);
+
+			int maxRest = GetMaxRect(restGroup);
+			//printf("Rest:%d\n", maxRest);
+
+			maxResult = std::max(maxResult, std::max(maxCircle, 1) + std::max(maxRest, 1));
+		}
+	}
+
+	printf("Case #%d: %d\n", case_num, maxResult);
 }
 
 int main() {
