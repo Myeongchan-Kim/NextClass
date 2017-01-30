@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FB1_zombie.cpp">
+    <ClCompile Include="FB1_manMov.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

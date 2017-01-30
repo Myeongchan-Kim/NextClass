@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FB1_zombie.cpp" />
+    <ClCompile Include="FB1_manMov.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5FADBD03-079B-4D13-9DB9-A5C517588DF1}</ProjectGuid>

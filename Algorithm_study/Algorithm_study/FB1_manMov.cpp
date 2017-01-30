@@ -113,8 +113,8 @@ void problem_solve(int case_num)
 		int gas;
 		int s, d;
 		scanf("%d %d %d", &s, &d, &gas);
-		weight[s][d] = gas;
-		weight[d][s] = gas;
+		weight[s][d] = std::min(weight[s][d], gas);
+		weight[d][s] = std::min(weight[d][s], gas);
 	}
 
 	for (int i = 0; i < K; i++)
