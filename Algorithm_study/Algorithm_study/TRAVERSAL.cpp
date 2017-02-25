@@ -71,7 +71,7 @@ void printPostOrderByVec(std::vector<int>& pre, std::vector<int>& in)
 	printf("%d ", me);
 }
 
-void problem_solve() 
+void count_insert() 
 {
 	scanf("%d", &N);
 	preorder.clear();
@@ -103,7 +103,7 @@ int main() {
 
 	for (int i = 0; i < C; i++)
 	{
-		problem_solve();
+		count_insert();
 	}
 
 	return 0;
