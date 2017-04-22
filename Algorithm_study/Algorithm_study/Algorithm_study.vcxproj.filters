@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2957_BST.cpp">
+    <ClCompile Include="B_large.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
