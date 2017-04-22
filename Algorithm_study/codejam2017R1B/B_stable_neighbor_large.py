@@ -57,40 +57,40 @@ def problem_solve(case_num):
         return list("IMPOSSIBLE")
 
     result = []
-    char = None
-    if (N == O * 2 and B == O) \
-        or (N == V * 2 and V == Y) \
-        or (N == G * 2 and R == G):
-        while sum(pool.values()) > 0:
-            char = find_max(pool, char)
-            result.append(char)
-            pool[char] -= 1
-        return result
-    elif (B == O and O != 0) or (V == Y and V != 0) or (R == G and G != 0):
-        return list("IMPOSSIBLE")
-
     RGpart = []
     BOpart = []
     YVpart = []
 
     if G != 0:
         RGpart = make_part_str(pool, ["R", "G"])
-
+        if N == G * 2:
+            return RGpart
     if O != 0:
         BOpart = make_part_str(pool, ["B", "O"])
-
+        if N == O * 2:
+            return BOpart
     if V != 0:
         YVpart = make_part_str(pool, ["Y", "V"])
+        if N == V * 2:
+            return YVpart
 
     if pool["G"] > 0 or pool["O"] > 0 or pool["V"] > 0:
-        return list("ERROR")
+        raise "ERROR"
 
     if RGpart != []:
-        pool['R'] += 1
+        RGpart.append("R")
+        if pool["R"] == 0:
+            return list("IMPOSSIBLE")
+
     if BOpart != []:
-        pool['B'] += 1
+        BOpart.append("B")
+        if pool["B"] == 0:
+            return list("IMPOSSIBLE")
+
     if YVpart != []:
-        pool['Y'] += 1
+        YVpart.append("Y")
+        if pool["Y"] == 0:
+            return list("IMPOSSIBLE")
 
     rest_part = only_RGY_string(pool, pool['R'] + pool['B'] + pool['Y'])
     if rest_part == list("IMPOSSIBLE"):
@@ -116,15 +116,13 @@ def problem_solve(case_num):
 
 
 def make_part_str(pool, chars):
-    result = [chars[0]]
-    pool[chars[0]] -= 1
+    result = []
     while pool[chars[1]] > 0:
-        result += [chars[1]]
         result += [chars[0]]
-        pool[chars[1]] -= 1
+        result += [chars[1]]
         pool[chars[0]] -= 1
+        pool[chars[1]] -= 1
     return result
-
 
 if __name__ == "__main__":
     T = int(input())
