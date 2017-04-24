@@ -50,12 +50,12 @@ def solve(N, horses, ways, orders):
     return result
 
 
-
 def calc_time(dist, endure, speed):
     if dist > endure:
         return math.inf
     else:
         return dist / speed
+
 
 def find_shortest_way(ways, N):
     # Floyd-Warshall algorithm
