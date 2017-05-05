@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="B_large.cpp">
+    <ClCompile Include="codejam20171C_Hyunwook_C1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
