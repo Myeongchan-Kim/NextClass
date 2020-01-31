@@ -1,0 +1,27 @@
+외부 실행:/bin/ls 
+합계 208
+drwxrwxr-x  4 paul paul  4096  9월 13 00:36 .
+drwxr-xr-x 31 paul paul  4096  9월 13 00:36 ..
+drwxrwxr-x  8 paul paul  4096  9월  5 21:50 .git
+-rw-rw-r--  1 paul paul   572  9월 12 16:42 Makefile
+-rwxrwxr-x  1 paul paul 54159  9월 13 00:36 MyShell
+-rw-rw-r--  1 paul paul   629  9월  2 22:40 README.md
+-rw-rw-r--  1 paul paul 10471  9월 13 00:28 built_in.c
+-rw-rw-r--  1 paul paul  1427  9월 13 00:36 built_in.h
+-rw-rw-r--  1 paul paul 35832  9월 13 00:36 built_in.o
+-rw-rw-r--  1 paul paul   530  9월  3 00:46 const.h
+-rw-rw-r--  1 paul paul  1037  9월 13 00:01 external_cmd.c
+-rw-rw-r--  1 paul paul   564  9월 13 00:34 external_cmd.h
+-rw-rw-r--  1 paul paul  7304  9월 13 00:34 external_cmd.o
+-rw-rw-r--  1 paul paul   217  8월 29 02:13 main.c
+-rw-rw-r--  1 paul paul   224  7월 31 20:13 main.h
+-rw-rw-r--  1 paul paul  5552  9월 12 18:34 main.o
+-rw-rw-r--  1 paul paul  3405  9월 13 00:33 proc_cmd.c
+-rw-rw-r--  1 paul paul   529  9월 13 00:10 proc_cmd.h
+-rw-rw-r--  1 paul paul 12124  9월 13 00:34 proc_cmd.o
+-rw-r--r--  1 paul paul    23  9월 13 00:37 result.txt
+-rw-rw-r--  1 paul paul   233  9월  5 21:43 showArgv.c
+-rw-rw-r--  1 paul paul    89  7월 31 15:02 showArgv.h
+-rw-rw-r--  1 paul paul  5156  9월 12 18:34 showArgv.o
+drwxrwxr-x  5 paul paul  4096  9월  5 21:19 testdir
+PID: 3922 is terminated.

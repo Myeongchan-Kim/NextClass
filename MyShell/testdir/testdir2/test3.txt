@@ -1,0 +1,24 @@
+# Makefile for MyShell
+CC = gcc
+OPS = -g -W -Wall -O2 -c
+
+all : MyShell
+
+MyShell : main.o showArgv.o proc_cmd.o built_in.o 
+	$(CC) -o MyShell main.o showArgv.o proc_cmd.o built_in.o
+
+main.o : main.c main.h const.h
+	$(CC) $(OPS) main.c
+
+showArgv.o : showArgv.c showArgv.h
+	$(CC) $(OPS) showArgv.c
+
+proc_cmd.o : proc_cmd.c proc_cmd.h const.h
+	$(CC) $(OPS) proc_cmd.c
+
+built_in.o : built_in.c built_in.h const.h
+	$(CC) $(OPS) built_in.c
+
+clear : 
+	rm -rf *.o MyShell
+
